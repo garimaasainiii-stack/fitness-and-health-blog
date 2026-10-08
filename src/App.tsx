@@ -117,11 +117,42 @@ export default function App() {
     }
   }, [resolveRoute]);
 
-  // Listen to browser Back/Forward navigation
+  // Listen to browser Back/Forward navigation and cleanse any lingering # from address bar
   useEffect(() => {
+    // If URL contains a hash, strip it immediately to keep clean URLs
+    if (window.location.hash) {
+      const h = window.location.hash.replace(/^#\/?/, '').replace(/^article\//, '').trim();
+      const target = h ? `/${h}` : (window.location.pathname || '/');
+      window.history.replaceState({}, '', target);
+    }
+
     applyCurrentRoute();
-    window.addEventListener('popstate', applyCurrentRoute);
-    return () => window.removeEventListener('popstate', applyCurrentRoute);
+
+    const onPop = () => {
+      if (window.location.hash) {
+        const h = window.location.hash.replace(/^#\/?/, '').replace(/^article\//, '').trim();
+        const target = h ? `/${h}` : (window.location.pathname || '/');
+        window.history.replaceState({}, '', target);
+      }
+      applyCurrentRoute();
+    };
+
+    const onHash = (e: HashChangeEvent) => {
+      e.preventDefault();
+      if (window.location.hash) {
+        const h = window.location.hash.replace(/^#\/?/, '').replace(/^article\//, '').trim();
+        const target = h ? `/${h}` : (window.location.pathname || '/');
+        window.history.replaceState({}, '', target);
+      }
+      applyCurrentRoute();
+    };
+
+    window.addEventListener('popstate', onPop);
+    window.addEventListener('hashchange', onHash);
+    return () => {
+      window.removeEventListener('popstate', onPop);
+      window.removeEventListener('hashchange', onHash);
+    };
   }, [applyCurrentRoute]);
 
   const toggleBookmark = (id: string) => {

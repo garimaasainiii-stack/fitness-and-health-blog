@@ -6,9 +6,11 @@ import strengthImage from '../assets/images/strength_training_1791176016268.jpg'
 import sleepImage from '../assets/images/sleep_recovery_1791176029386.jpg';
 import nutritionImage from '../assets/images/nutrition_fuel_1791176040957.jpg';
 import coldPlungeImage from '../assets/images/cold_plunge_1791176051695.jpg';
-import mentalHealthImage from '../assets/images/mental_health_self_care_1791176753280.jpg';
-import sunsetYogaImage from '../assets/images/sunset_yoga_lunge_1791176868917.jpg';
-import fruitPlatterImage from '../assets/images/fresh_fruit_platter_1791177002775.jpg';
+import microbiomeImage from '../assets/images/gut_microbiome_biodiversity_1791437088475.jpg';
+import mobilityImage from '../assets/images/functional_mobility_joint_1791437104604.jpg';
+import cortisolImage from '../assets/images/cortisol_stress_relief_1791437119051.jpg';
+import fastingImage from '../assets/images/intermittent_fasting_chrono_1791437135591.jpg';
+import vo2MaxImage from '../assets/images/vo2_max_aerobic_test_1791437163139.jpg';
 
 export const ARTICLES: Article[] = [
   {
@@ -27,7 +29,7 @@ export const ARTICLES: Article[] = [
     publishedAt: 'October 2, 2026',
     readTime: '8 min read',
     wordCount: 1650,
-    coverImage: sunsetYogaImage,
+    coverImage: heroImage,
     fallbackGradient: 'from-amber-900/60 to-stone-900',
     isFeatured: true,
     leadParagraph: 'For decades, cardiovascular conditioning was culturally dominated by the dogma of high-intensity exhaustion. Yet contemporary sports science and metabolic medicine have converged on an opposing truth: the vast majority of our physiological endurance, mitochondrial health, and metabolic resilience is cultivated not in breathless lactic agony, but in the disciplined quietude of Zone 2 steady-state training.',
@@ -369,83 +371,70 @@ export const ARTICLES: Article[] = [
     initialLikes: 198
   },
   {
-    id: 'mental-health-self-care',
-    slug: 'mental-health-self-care',
-    title: 'The Importance of Mental Health & Self-Care in the Modern World',
-    subtitle: 'From chronic cognitive overload to nervous system restoration: neurobiology, boundary architecture, and evidence-based self-care.',
-    category: 'Mental Resilience',
+    id: 'gut-microbiome',
+    slug: 'gut-microbiome',
+    title: 'Microbiome Synergy: How Gut Biodiversity Dictates Metabolic Health and Mood',
+    subtitle: 'Short-chain fatty acids, the vagus nerve superhighway, and prebiotic dietary diversity.',
+    category: 'Nutrition & Fuel',
     author: {
-      name: 'Dr. Elena Rostova',
-      role: 'Clinical Psychologist & Neurobiology Fellow',
-      avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=240&q=80',
-      credentials: 'Ph.D., LP, Mind-Body Medicine',
-      bio: 'Advising healthcare leaders and high-performance teams on preventing occupational burnout and implementing sustainable emotional self-care.'
+      name: 'Dr. Maya Patel',
+      role: 'Gastroenterologist & Microbiome Researcher',
+      avatar: 'https://images.unsplash.com/photo-1594824813566-7875a35740e1?auto=format&fit=crop&w=240&q=80',
+      credentials: 'M.D., Board Certified in Internal Medicine & Gastroenterology',
+      bio: 'Leading clinical trials on dietary microbiota accessible carbohydrates (MACs) and systemic inflammatory modulation.'
     },
     publishedAt: 'September 21, 2026',
-    readTime: '8 min read',
-    wordCount: 1680,
-    coverImage: mentalHealthImage,
-    fallbackGradient: 'from-rose-950 to-stone-900',
-    leadParagraph: 'In an era dominated by relentless hyper-connectivity, continuous cognitive demands, and sensory overload, the dialogue surrounding mental health has fundamentally shifted. Self-care is no longer an occasional luxury or an aesthetic trend—it is a physiological imperative. Protecting your neurological reserves, practicing emotional boundary architecture, and deliberately downregulating chronic stress circuits are the foundational prerequisites for human well-being and longevity.',
+    readTime: '7 min read',
+    wordCount: 1520,
+    coverImage: microbiomeImage,
+    fallbackGradient: 'from-teal-950 to-stone-900',
+    leadParagraph: 'Inside the human distal colon resides an extraordinarily complex ecosystem comprising tens of trillions of microorganisms, harboring over a hundred times more unique genetic material than the human genome itself. Far from being passive passengers, these microbes function as an endocrine organ, breaking down inaccessible plant fibers into bioactive metabolites that govern insulin sensitivity, intestinal barrier integrity, and neurotransmitter signaling.',
     takeaways: [
-      'Self-care is a biological counterweight against chronic allostatic load and prefrontal cortex exhaustion.',
-      'The modern condition keeps individuals trapped in sympathetic hyperarousal; intentional downregulation restores vagal tone.',
-      'Cognitive self-care requires digital minimalism, active boundary setting, and guilt-free unstructured downtime.',
-      'Consistent daily micro-practices (such as physiological sighing and nature immersion) outperform sporadic emergency resets.'
+      'Microbial fermentation of prebiotic fiber produces short-chain fatty acids (SCFAs): butyrate, propionate, and acetate.',
+      'Butyrate is the primary energetic substrate for colonocytes, tightening junctional proteins and preventing endotoxemia.',
+      'Consuming 30 or more unique plant species each week is the gold-standard predictor of gut microbial richness.',
+      'Over 90% of peripheral serotonin and 50% of dopamine are synthesized in the enteric nervous system, regulated by gut flora.'
     ],
     sections: [
       {
-        id: 'the-neurobiology-of-overwhelm',
-        heading: 'The Neurobiology of Overwhelm: Taming the Tangled Mind',
+        id: 'scfa-signaling',
+        heading: 'The Power of Short-Chain Fatty Acids: Butyrate as a Master Regulator',
         paragraphs: [
-          'The human brain evolved to process localized, immediate environmental signals, not the infinite stream of algorithmic alerts, news feeds, and global crises delivered every minute to modern smartphones. When cognitive demand chronically exceeds attentional capacity, the prefrontal cortex experiences executive depletion.',
-          'Under this state of allostatic overload, the amygdala becomes hyper-sensitized, interpreting routine emails and minor delays as existential threats. The mind feels like an untangled knot of chronic anxiety—a persistent mental static that erodes concentration, impairs sleep architecture, and degrades emotional stability.'
+          'When we consume complex fermentable fibers and resistant starches that escape upper digestion, bacterial strains such as Faecalibacterium prausnitzii and Roseburia ferment them into short-chain fatty acids.',
+          'Butyrate, the most studied SCFA, acts as an epigenetic regulator through histone deacetylase (HDAC) inhibition, repressing pro-inflammatory cytokine expression. Furthermore, propionate travels through portal circulation to the liver where it inhibits hepatic cholesterol synthesis and stimulates gluconeogenesis.'
         ],
         callout: {
-          title: 'Allostatic Load & Cognitive Reserve',
-          text: 'Chronic unbuffered stress elevates inflammatory cytokines (IL-6, TNF-alpha) and impairs neurogenesis in the dentate gyrus, making deliberate neurological self-care essential for brain preservation.',
-          source: 'McEwen, Neuropsychopharmacology (2017)'
+          title: 'The 30-Plant Rule',
+          text: 'The American Gut Project demonstrated that individuals who consumed >30 different plant varieties per week had significantly greater microbial diversity and lower antibiotic-resistant genes than those consuming <10.',
+          source: 'McDonald et al., mSystems (American Society for Microbiology)'
         },
         metric: {
-          label: 'Cortisol Clearance Rate',
-          value: '-32%',
-          context: 'Reduction in salivary cortisol markers following structured 20-minute daily restorative downtime.'
+          label: 'Weekly Plant Species Target',
+          value: '30+',
+          context: 'Unique vegetables, legumes, seeds, whole grains, nuts, and herbs consumed across seven days.'
         }
       },
       {
-        id: 'principles-of-evidence-based-self-care',
-        heading: 'Beyond Spa Days: The Core Pillars of Authentic Self-Care',
+        id: 'gut-brain-axis',
+        heading: 'The Vagus Nerve & The Gut-Brain Dialogue',
         paragraphs: [
-          'Commercial culture often commodifies self-care into expensive bath bombs and scented candles. True self-care is often unglamorous and deeply structural: it is having the courage to set firm professional boundaries, saying no to draining commitments, adhering to consistent sleep schedules, and giving yourself permission to disconnect completely from the digital panopticon.',
-          'Psychological self-care also incorporates cognitive reframing—noticing catastrophic thought patterns and gently restructuring them with evidence, self-compassion, and perspective.'
-        ],
-        bulletPoints: [
-          'Boundary hygiene: Establishing non-negotiable windows where work devices and notifications are powered off.',
-          'Parasympathetic anchoring: Daily 10-minute pauses dedicated solely to breathwork, journaling, or stillness.',
-          'Somatic discharge: Physical movement, walking in nature, and stretching to metabolize circulating stress hormones.'
-        ]
-      },
-      {
-        id: 'cultivating-mindful-clarity',
-        heading: 'Cultivating Mindful Clarity: Transitioning from Turmoil to Calm',
-        paragraphs: [
-          'Just as physical muscles require structured rest intervals to grow, the default mode network (DMN) and central executive network require non-demanding mental spaces to consolidate insights and foster creative problem-solving. By cultivating self-care as an unshakeable daily non-negotiable, you untangle the reactive knots in your nervous system, allowing authentic mental clarity and emotional resilience to emerge.'
+          'The bidirectional communication channel connecting the enteric nervous system to the central nervous system occurs along the tenth cranial nerve—the vagus nerve. Enteroendocrine cells in the gut lumen release satiety hormones such as GLP-1 and PYY in response to bacterial metabolomic cues, modulating appetite regulation and mood in real time.'
         ]
       }
     ],
     pullQuote: {
-      quote: 'Self-care is not about escaping your life; it is about creating a life that you do not constantly need to escape from.',
-      author: 'Dr. Elena Rostova'
+      quote: 'We are not autonomous individuals; we are complex holobionts whose emotional resilience begins in the fermentation vats of our colon.',
+      author: 'Dr. Maya Patel'
     },
-    conclusion: 'Prioritizing your mental health is not an act of selfishness; it is the ultimate act of stewardship over the only instrument through which you experience the world. Honor your physiological boundaries, practice proactive mental self-care, and remember that a calm, rested mind is your greatest competitive advantage and deepest source of joy.',
+    conclusion: 'Caring for your microbiome does not require expensive designer probiotic capsules. The true cornerstone is dietary diversity: feeding your indigenous bacteria a continuous spectrum of fibrous plant foods, fermented delicacies, and polyphenols.',
     actionChecklist: [
-      'Institute a strict "digital sunset" 60 minutes before bedtime.',
-      'Practice 5 minutes of mindful breathwork or a physiological sigh reset twice daily.',
-      'Schedule dedicated 30-minute blocks of non-productive restorative downtime into your weekly calendar.',
-      'Speak to a mental health professional or counselor whenever persistent cognitive overload impairs daily functioning.'
+      'Track plant diversity: aim to eat 30 different species of vegetables, seeds, nuts, and grains weekly.',
+      'Incorporate one serving of traditionally fermented food daily (kimchi, kefir, sauerkraut).',
+      'Minimize chronic artificial sweetener and ultra-processed emulsifier consumption.',
+      'Hydrate adequately to support mucosal layer integrity throughout the digestive tract.'
     ],
-    tags: ['Mental Health', 'Self-Care', 'Mindfulness', 'Neuroscience', 'Resilience'],
-    initialLikes: 231
+    tags: ['Microbiome', 'Gut Health', 'Nutrition', 'Metabolism'],
+    initialLikes: 164
   },
   {
     id: 'functional-mobility',
@@ -463,7 +452,7 @@ export const ARTICLES: Article[] = [
     publishedAt: 'September 18, 2026',
     readTime: '7 min read',
     wordCount: 1490,
-    coverImage: heroImage,
+    coverImage: mobilityImage,
     fallbackGradient: 'from-amber-950 to-stone-900',
     leadParagraph: 'For generations, the default prescription for stiff joints and athletic warm-ups was simple static stretching: reaching for one’s toes, holding the position for thirty seconds, and hoping that temporary tissue deformation would prevent injury. Modern orthopedic biomechanics has thoroughly debunked this approach. Passive flexibility without active neurological control creates unstable joints; true joint health requires active functional mobility.',
     takeaways: [
@@ -530,7 +519,7 @@ export const ARTICLES: Article[] = [
     publishedAt: 'September 15, 2026',
     readTime: '6 min read',
     wordCount: 1380,
-    coverImage: sleepImage,
+    coverImage: cortisolImage,
     fallbackGradient: 'from-purple-950 to-stone-900',
     leadParagraph: 'Stress is not inherently toxic; in acute, discrete bursts, the release of epinephrine and cortisol is an evolutionary masterpiece that fuels speed, focused cognition, and immunological vigilance. The catastrophe of the modern human condition is chronic, low-grade sympathetic activation—a state wherein our ancient survival circuitry remains perpetually toggled on, eroding vascular tone, disrupting sleep, and impairing cellular repair.',
     takeaways: [
@@ -596,7 +585,7 @@ export const ARTICLES: Article[] = [
     publishedAt: 'September 12, 2026',
     readTime: '8 min read',
     wordCount: 1620,
-    coverImage: nutritionImage,
+    coverImage: fastingImage,
     fallbackGradient: 'from-stone-900 to-amber-950',
     leadParagraph: 'Intermittent fasting (IF) has emerged as one of the most polarizing dietary topics of the 21st century. Proponents herald it as a panacea for cellular renewal and cancer prevention, while critics dismiss it as a glorified calorie-restriction trick that risks sarcopenia and metabolic slowing. Examining human randomized controlled trials rather than rodent fasting studies reveals a far more nuanced picture of how time-restricted eating affects human physiology.',
     takeaways: [
@@ -647,84 +636,71 @@ export const ARTICLES: Article[] = [
     initialLikes: 153
   },
   {
-    id: 'fruit-polyphenols',
-    slug: 'fruit-polyphenols',
-    title: 'The Micronutrient Matrix: How Fruit Polyphenols, Anthocyanins & Fiber Drive Cellular Longevity',
-    subtitle: 'Deconstructing cellular senescence, Nrf2 gene activation, the whole-food fiber matrix, and the myth of fruit fructose toxicity.',
-    category: 'Nutrition & Fuel',
+    id: 'vo2-max',
+    slug: 'vo2-max',
+    title: 'VO2 Max as a Clinical Vital Sign: Why Cardiorespiratory Fitness Predicts All-Cause Mortality',
+    subtitle: 'The epidemiological data on maximum aerobic capacity, cardiorespiratory resilience, and age-related functional decline.',
+    category: 'Longevity & Science',
     author: {
-      name: 'Claire Kensington',
-      role: 'Clinical Sports Dietitian & Longevity Nutritionist',
-      avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=240&q=80',
-      credentials: 'MS, RD, CSSD',
-      bio: 'Leading research on botanical phytonutrients, microvascular endothelial function, and dietary senolytics.'
+      name: 'Dr. Julian Thorne',
+      role: 'Exercise Physiologist & Preventive Cardiologist',
+      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=240&q=80',
+      credentials: 'Ph.D., FACSM',
+      bio: 'Investigating cardiorespiratory fitness percentiles and their predictive power in clinical longevity cohorts.'
     },
     publishedAt: 'September 8, 2026',
-    readTime: '8 min read',
-    wordCount: 1690,
-    coverImage: fruitPlatterImage,
-    fallbackGradient: 'from-amber-950 to-stone-900',
-    leadParagraph: 'In recent wellness discourse, whole fruits have paradoxically come under fire from low-carbohydrate dogmas cautioning against fructose. Yet nutritional biochemistry and large-scale prospective epidemiology tell the exact opposite story: humans who consume abundant, diverse whole fruits exhibit significantly lower rates of cardiovascular mortality, enhanced glycemic regulation, and delayed cellular senescence.',
+    readTime: '9 min read',
+    wordCount: 1740,
+    coverImage: vo2MaxImage,
+    fallbackGradient: 'from-rose-950 to-stone-900',
+    leadParagraph: 'If a pharmaceutical company patented a medication that cut all-cause mortality risk by half, lowered cardiovascular events by 60%, and drastically delayed neurocognitive decline, it would be celebrated as the greatest medical breakthrough in human history. That intervention already exists, carries no negative side effects, and is measured through a single metric: your VO2 max.',
     takeaways: [
-      'Whole fruit fructose is packaged within an intact cellular pectin-cellulose matrix that blunts hepatic absorption rates.',
-      'Anthocyanins and flavonoids in deeply pigmented berries and citrus activate the endogenous Nrf2 antioxidant response pathway.',
-      'Dietary polyphenols like fisetin and quercetin act as mild senolytics, clearing zombie senescent cells from vascular endothelium.',
-      'Consuming 3 to 4 distinct color spectrums of whole fresh fruits daily supports microvascular nitric oxide production.'
+      'Moving from the lowest quartile of cardiorespiratory fitness to the top quartile corresponds to a 5x reduction in all-cause mortality over a decade.',
+      'VO2 Max measures the maximum milliliters of oxygen your body can transport and utilize per kilogram of body weight per minute.',
+      'Cardiorespiratory capacity naturally declines by approximately 10% per decade after age 30 without deliberate interval training.',
+      'High-intensity interval training (HIIT) combined with voluminous Zone 2 base work is required to push VO2 Max past genetic thresholds.'
     ],
     sections: [
       {
-        id: 'the-intact-fiber-matrix',
-        heading: 'The Intact Fiber Matrix: Why Whole Fruit is Not "Just Sugar"',
+        id: 'the-epidemiological-weight',
+        heading: 'The Clearest Predictive Metric in Medicine',
         paragraphs: [
-          'Liquid high-fructose corn syrup in sodas floods hepatic portal circulation without dietary fiber, overwhelming liver fructokinase and provoking de novo lipogenesis. In sharp contrast, whole fruits contain soluble pectins, insoluble cellulose, and water-bound cellular structures.',
-          'This physical architecture physically slows gastric emptying and delays small intestinal absorption, ensuring that fructose is cleared gradually by small bowel enterocytes before reaching the liver. Furthermore, whole fruits deliver potassium, vitamin C, and thousands of synergistically bonded bioflavonoids that enhance systemic insulin sensitivity.'
+          'In a monumental landmark study published by Mandsager and colleagues in JAMA Network Open analyzing over 122,000 patients undergoing treadmill stress testing, cardiorespiratory fitness was inversely associated with all-cause mortality without an observed upper threshold of benefit.',
+          'Remarkably, having an extremely low VO2 max was found to carry a greater hazard ratio for premature death than smoking, coronary artery disease, or type 2 diabetes. Being physically fit is not merely a lifestyle choice; it is the ultimate prophylactic vaccine against biological frailty.'
         ],
         callout: {
-          title: 'The BMJ Landmark Fruit Analysis',
-          text: 'Greater consumption of specific whole fruits—particularly blueberries, grapes, and apples—was significantly associated with a 23% lower risk of type 2 diabetes, whereas fruit juice consumption increased risk.',
-          source: 'Muraki et al., British Medical Journal (BMJ)'
+          title: 'The JAMA Landmark Analysis',
+          text: 'Elite performers (>97.7th percentile of fitness) exhibited an 80% lower risk of mortality compared to low performers, with no evidence of an upper ceiling of risk.',
+          source: 'Mandsager et al., JAMA Network Open (2018)'
         },
         metric: {
-          label: 'Type 2 Diabetes Risk Reduction',
-          value: '-23%',
-          context: 'Observed in cohorts consuming 3 servings of intact whole fruits weekly vs non-consumers.'
+          label: 'Mortality Hazard Reduction',
+          value: '5x',
+          context: 'Risk reduction between top vs. bottom cardiorespiratory fitness quartiles.'
         }
       },
       {
-        id: 'phytonutrient-color-spectrum',
-        heading: 'The Phytonutrient Spectrum: Eating Across the Chromatic Wheel',
+        id: 'the-norwegian-4x4-protocol',
+        heading: 'The Norwegian 4x4 Protocol: Expanding Aerobic Ceilings',
         paragraphs: [
-          'Different pigments in fruits correspond directly to distinct bioactive therapeutic compounds. Deep blues and purples in blueberries and blackberries are driven by anthocyanins that cross the blood-brain barrier to protect hippocampal neurons from oxidative damage.',
-          'Vibrant yellows and oranges in citrus and mangoes provide beta-cryptoxanthin and hesperidin, enhancing microvascular capillary resilience and endothelial nitric oxide synthase (eNOS) production. Ruby reds in watermelon and strawberries supply lycopene and ellagic acid, which downregulate NF-kB pro-inflammatory signaling.'
-        ],
-        bulletPoints: [
-          'Blue/Purple (Blueberries, Blackberries): Anthocyanins for neuroprotection and cerebral blood flow.',
-          'Red (Strawberries, Watermelon, Cherries): Lycopene and ellagic acid for arterial compliance.',
-          'Orange/Yellow (Mango, Oranges, Kiwi): Hesperidin, lutein, and vitamin C for collagen synthesis.',
-          'Green (Kiwi, Green Grapes): Chlorophyll, folate, and prebiotic oligosaccharides.'
-        ]
-      },
-      {
-        id: 'daily-fruit-protocol',
-        heading: 'Structuring an Optimal Daily Fruit Protocol',
-        paragraphs: [
-          'To harness the full therapeutic dividend of fruit without glycemic volatility, consume whole fruits alongside meals containing dietary protein or healthy fats (such as Greek yogurt, walnuts, or after a resistance workout). Prioritize seasonal local varieties, keep the skins on apples and berries for maximal polyphenol concentration, and celebrate natural botanical abundance.'
+          'While Zone 2 provides the mitochondrial volume and vascular network, elevating peak VO2 max requires challenging your stroke volume—the volume of blood pumped per ventricular contraction. The most clinically validated protocol for this is the Norwegian 4x4 method.',
+          'Execute four 4-minute intervals at 85% to 95% of maximum heart rate (a pace where you can only vocalize single-word grunts), separated by 3 minutes of active recovery at 60% HR max. Completing this protocol just once per week induces profound cardiac remodeling and increases cardiac output.'
         ]
       }
     ],
     pullQuote: {
-      quote: 'Nature does not design isolated molecules; it designs complete biochemical symphonies of fiber, water, and polyphenols.',
-      author: 'Claire Kensington, RD'
+      quote: 'Your aerobic capacity in your forties determines whether you will walk up the stairs independently in your eighties.',
+      author: 'Dr. Julian Thorne'
     },
-    conclusion: 'Do not fear the vibrant gifts of the orchard. Whole fruits are not metabolic liabilities—they are longevity powerhouses packed with senolytic polyphenols, gut-nourishing fibers, and cellular rejuvenators. Build an abundant, colorful fruit plate into your daily nutrition, and let botanical diversity defend your cellular architecture.',
+    conclusion: 'Your future physical independence is directly indexed to the cardiorespiratory ceiling you construct today. Combine patient Zone 2 base training with a weekly high-intensity interval stimulus, measure your progress objectively, and protect your vital aerobic capacity as your most valuable biological asset.',
     actionChecklist: [
-      'Incorporate 2 to 3 servings of intact, whole fresh fruits across different color groups daily.',
-      'Always choose whole fruit over filtered commercial juices to protect the essential pectin matrix.',
-      'Pair fruits with protein or healthy fats to optimize postprandial glucose curves.',
-      'Wash fresh fruits gently and consume edible skins to capture the highest density of polyphenols.'
+      'Undergo a clinical VO2 max cardiopulmonary test or perform a Cooper 12-minute run field test.',
+      'Integrate one weekly high-intensity interval session (such as the Norwegian 4x4 protocol).',
+      'Build your low-intensity Zone 2 base to at least 150 minutes weekly to support high-intensity recovery.',
+      'Re-test your functional output every six months to verify positive adaptation.'
     ],
-    tags: ['Nutrition', 'Fruits', 'Polyphenols', 'Antioxidants', 'Longevity'],
-    initialLikes: 268
+    tags: ['VO2 Max', 'Cardio', 'Longevity', 'Clinical Science'],
+    initialLikes: 247
   }
 ];
 

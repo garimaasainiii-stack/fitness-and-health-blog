@@ -327,7 +327,7 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
                       key={tag}
                       className="text-[11px] font-mono text-stone-600 bg-stone-100 px-2 py-0.5 rounded-sm"
                     >
-                      #{tag}
+                      {tag}
                     </span>
                   ))}
                 </div>
