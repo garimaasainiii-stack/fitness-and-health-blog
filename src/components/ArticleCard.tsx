@@ -74,11 +74,19 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
 
         {/* Title */}
         <h3
-          onClick={() => onReadArticle(article)}
-          className="font-serif text-xl sm:text-2xl font-bold text-stone-900 leading-snug tracking-tight group-hover:text-stone-700 transition-colors cursor-pointer mb-3"
+          className="font-serif text-xl sm:text-2xl font-bold text-stone-900 leading-snug tracking-tight mb-3"
           style={{ textWrap: 'balance' }}
         >
-          {article.title}
+          <a
+            href={`/${article.slug}`}
+            onClick={(e) => {
+              e.preventDefault();
+              onReadArticle(article);
+            }}
+            className="hover:text-stone-700 transition-colors"
+          >
+            {article.title}
+          </a>
         </h3>
 
         {/* Subtitle / Excerpt */}
@@ -108,13 +116,17 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
           </div>
         </div>
 
-        <button
-          onClick={() => onReadArticle(article)}
-          className="inline-flex items-center gap-1 text-xs font-semibold text-stone-900 group-hover:text-amber-800 transition-colors cursor-pointer"
+        <a
+          href={`/${article.slug}`}
+          onClick={(e) => {
+            e.preventDefault();
+            onReadArticle(article);
+          }}
+          className="inline-flex items-center gap-1 text-xs font-semibold text-stone-900 hover:text-amber-800 transition-colors cursor-pointer"
         >
           <span>Read</span>
           <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-        </button>
+        </a>
       </div>
     </article>
   );

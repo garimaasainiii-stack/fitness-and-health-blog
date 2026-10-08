@@ -7,6 +7,16 @@ interface CategoryFilterProps {
   activeCount: number;
 }
 
+const CATEGORY_URLS: Record<string, string> = {
+  'All Articles': '/',
+  'Strength & Training': '/strength',
+  'Cardio & Endurance': '/cardio',
+  'Recovery & Sleep': '/recovery',
+  'Nutrition & Fuel': '/nutrition',
+  'Longevity & Science': '/longevity',
+  'Mental Resilience': '/resilience',
+};
+
 export const CategoryFilter: React.FC<CategoryFilterProps> = ({
   selectedCategory,
   onSelectCategory,
@@ -18,18 +28,23 @@ export const CategoryFilter: React.FC<CategoryFilterProps> = ({
       <div className="flex items-center gap-1.5 overflow-x-auto pb-2 sm:pb-0 scrollbar-none">
         {CATEGORIES.map((cat) => {
           const isActive = selectedCategory === cat;
+          const url = CATEGORY_URLS[cat] || '/';
           return (
-            <button
+            <a
               key={cat}
-              onClick={() => onSelectCategory(cat)}
-              className={`px-3 py-1.5 text-xs font-medium rounded-lg whitespace-nowrap transition-colors cursor-pointer ${
+              href={url}
+              onClick={(e) => {
+                e.preventDefault();
+                onSelectCategory(cat);
+              }}
+              className={`px-3 py-1.5 text-xs font-medium rounded-lg whitespace-nowrap transition-colors cursor-pointer block ${
                 isActive
                   ? 'bg-stone-900 text-stone-50 shadow-2xs'
                   : 'bg-white text-stone-600 hover:text-stone-900 hover:bg-stone-100 border border-stone-200/80'
               }`}
             >
               {cat}
-            </button>
+            </a>
           );
         })}
       </div>

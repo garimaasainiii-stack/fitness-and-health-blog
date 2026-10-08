@@ -63,11 +63,19 @@ export const HeroFeatured: React.FC<HeroFeaturedProps> = ({
 
           {/* Balanced Display Headline */}
           <h1
-            onClick={() => onReadArticle(article)}
-            className="font-serif text-3xl sm:text-4xl xl:text-[2.65rem] font-bold text-stone-900 leading-[1.18] tracking-tight hover:text-stone-700 transition-colors cursor-pointer mb-4"
+            className="font-serif text-3xl sm:text-4xl xl:text-[2.65rem] font-bold text-stone-900 leading-[1.18] tracking-tight mb-4"
             style={{ textWrap: 'balance' }}
           >
-            {article.title}
+            <a
+              href={`/${article.slug}`}
+              onClick={(e) => {
+                e.preventDefault();
+                onReadArticle(article);
+              }}
+              className="hover:text-stone-700 transition-colors"
+            >
+              {article.title}
+            </a>
           </h1>
 
           {/* Deck / Excerpt */}
@@ -113,13 +121,17 @@ export const HeroFeatured: React.FC<HeroFeaturedProps> = ({
                 <Bookmark className="w-4 h-4" />
               </button>
 
-              <button
-                onClick={() => onReadArticle(article)}
+              <a
+                href={`/${article.slug}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  onReadArticle(article);
+                }}
                 className="inline-flex items-center gap-2 px-4 py-2 text-xs font-medium text-white bg-stone-900 rounded-lg hover:bg-stone-800 transition-colors cursor-pointer"
               >
                 <span>Read Story</span>
                 <ArrowRight className="w-3.5 h-3.5" />
-              </button>
+              </a>
             </div>
           </div>
         </div>

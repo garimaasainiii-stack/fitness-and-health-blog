@@ -69,9 +69,16 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
     }
   };
 
+  const scrollToSection = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   const handleShare = () => {
     if (navigator.clipboard) {
-      navigator.clipboard.writeText(window.location.href);
+      navigator.clipboard.writeText(window.location.origin + '/' + article.slug);
       setCopied(true);
       setTimeout(() => setCopied(false), 2400);
     }
@@ -278,34 +285,34 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
                   <ListOrdered className="w-3.5 h-3.5 text-stone-500" />
                   <span>Contents</span>
                 </div>
-                <nav className="space-y-2.5 text-xs">
-                  <a
-                    href="#introduction"
-                    className="block text-stone-600 hover:text-stone-950 hover:underline transition-colors"
+                <nav className="space-y-2 text-xs">
+                  <button
+                    onClick={() => scrollToSection('introduction')}
+                    className="block w-full text-left text-stone-600 hover:text-stone-950 transition-colors cursor-pointer"
                   >
                     01. Introduction
-                  </a>
+                  </button>
                   {article.sections.map((sec, idx) => (
-                    <a
+                    <button
                       key={sec.id}
-                      href={`#${sec.id}`}
-                      className="block text-stone-600 hover:text-stone-950 hover:underline transition-colors"
+                      onClick={() => scrollToSection(sec.id)}
+                      className="block w-full text-left text-stone-600 hover:text-stone-950 transition-colors cursor-pointer"
                     >
                       {String(idx + 2).padStart(2, '0')}. {sec.heading}
-                    </a>
+                    </button>
                   ))}
-                  <a
-                    href="#protocol-checklist"
-                    className="block text-stone-600 hover:text-stone-950 hover:underline transition-colors"
+                  <button
+                    onClick={() => scrollToSection('protocol-checklist')}
+                    className="block w-full text-left text-stone-600 hover:text-stone-950 transition-colors cursor-pointer"
                   >
                     {String(article.sections.length + 2).padStart(2, '0')}. Protocol Checklist
-                  </a>
-                  <a
-                    href="#conclusion"
-                    className="block text-stone-600 hover:text-stone-950 hover:underline transition-colors"
+                  </button>
+                  <button
+                    onClick={() => scrollToSection('conclusion')}
+                    className="block w-full text-left text-stone-600 hover:text-stone-950 transition-colors cursor-pointer"
                   >
                     {String(article.sections.length + 3).padStart(2, '0')}. Conclusion
-                  </a>
+                  </button>
                 </nav>
               </div>
 

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { ARTICLES } from './data/articles';
 import { Article } from './types/blog';
 import { Navbar } from './components/Navbar';
@@ -16,6 +16,24 @@ import { SavedArticlesDrawer } from './components/SavedArticlesDrawer';
 import { NewsletterSection } from './components/NewsletterSection';
 import { Footer } from './components/Footer';
 import { Search, Sparkles, SlidersHorizontal, Calculator } from 'lucide-react';
+
+const CATEGORY_SLUG_MAP: Record<string, string> = {
+  strength: 'Strength & Training',
+  cardio: 'Cardio & Endurance',
+  recovery: 'Recovery & Sleep',
+  nutrition: 'Nutrition & Fuel',
+  longevity: 'Longevity & Science',
+  resilience: 'Mental Resilience',
+};
+
+const CATEGORY_TO_SLUG_MAP: Record<string, string> = {
+  'Strength & Training': 'strength',
+  'Cardio & Endurance': 'cardio',
+  'Recovery & Sleep': 'recovery',
+  'Nutrition & Fuel': 'nutrition',
+  'Longevity & Science': 'longevity',
+  'Mental Resilience': 'resilience',
+};
 
 export default function App() {
   const [activeArticleId, setActiveArticleId] = useState<string | null>(null);
@@ -41,25 +59,70 @@ export default function App() {
     }
   }, [savedArticleIds]);
 
-  // Support browser hash routing e.g. #article/zone-2-aerobic-engine
-  useEffect(() => {
-    const handleHashChange = () => {
-      const hash = window.location.hash;
-      if (hash.startsWith('#article/')) {
-        const id = hash.replace('#article/', '');
-        const found = ARTICLES.find((a) => a.id === id || a.slug === id);
-        if (found) {
-          setActiveArticleId(found.id);
-        }
-      } else {
-        setActiveArticleId(null);
-      }
-    };
+  // Resolve pathname without hash or random IDs
+  const resolveRoute = useCallback((path: string) => {
+    const clean = path.split('?')[0].split('#')[0].replace(/^\/+|\/+$/g, '').toLowerCase();
 
-    handleHashChange();
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
+    if (!clean) {
+      return { type: 'home' as const };
+    }
+    if (clean === 'calculators') {
+      return { type: 'calculators' as const };
+    }
+    if (clean === 'saved') {
+      return { type: 'saved' as const };
+    }
+    if (CATEGORY_SLUG_MAP[clean]) {
+      return { type: 'category' as const, category: CATEGORY_SLUG_MAP[clean] };
+    }
+
+    const slug = clean.startsWith('article/') ? clean.replace('article/', '') : clean;
+    const found = ARTICLES.find((a) => a.slug === slug || a.id === slug);
+    if (found) {
+      return { type: 'article' as const, article: found };
+    }
+
+    return { type: 'home' as const };
   }, []);
+
+  // Sync state from current URL path
+  const applyCurrentRoute = useCallback(() => {
+    const route = resolveRoute(window.location.pathname);
+
+    if (route.type === 'article' && route.article) {
+      setActiveArticleId(route.article.id);
+      setIsCalculatorOpen(false);
+      setIsSavedDrawerOpen(false);
+      document.title = `${route.article.title} — Aura & Iron`;
+    } else if (route.type === 'category' && route.category) {
+      setActiveArticleId(null);
+      setSelectedCategory(route.category);
+      setIsCalculatorOpen(false);
+      setIsSavedDrawerOpen(false);
+      document.title = `${route.category} — Aura & Iron`;
+    } else if (route.type === 'calculators') {
+      setIsCalculatorOpen(true);
+      setIsSavedDrawerOpen(false);
+      document.title = `Bioenergetics & Protein Calculator — Aura & Iron`;
+    } else if (route.type === 'saved') {
+      setIsSavedDrawerOpen(true);
+      setIsCalculatorOpen(false);
+      document.title = `Saved Investigations Archive — Aura & Iron`;
+    } else {
+      setActiveArticleId(null);
+      setSelectedCategory('All Articles');
+      setIsCalculatorOpen(false);
+      setIsSavedDrawerOpen(false);
+      document.title = `Aura & Iron — Health & Fitness Journal`;
+    }
+  }, [resolveRoute]);
+
+  // Listen to browser Back/Forward navigation
+  useEffect(() => {
+    applyCurrentRoute();
+    window.addEventListener('popstate', applyCurrentRoute);
+    return () => window.removeEventListener('popstate', applyCurrentRoute);
+  }, [applyCurrentRoute]);
 
   const toggleBookmark = (id: string) => {
     setSavedArticleIds((prev) =>
@@ -68,16 +131,90 @@ export default function App() {
   };
 
   const handleSelectArticle = (article: Article) => {
-    window.location.hash = `#article/${article.id}`;
+    const newPath = `/${article.slug}`;
+    if (window.location.pathname !== newPath) {
+      window.history.pushState({}, '', newPath);
+    }
     setActiveArticleId(article.id);
+    setIsCalculatorOpen(false);
+    setIsSavedDrawerOpen(false);
+    document.title = `${article.title} — Aura & Iron`;
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleNavigateHome = () => {
-    window.location.hash = '';
+    if (window.location.pathname !== '/') {
+      window.history.pushState({}, '', '/');
+    }
     setActiveArticleId(null);
+    setSelectedCategory('All Articles');
     setSearchQuery('');
+    setIsCalculatorOpen(false);
+    setIsSavedDrawerOpen(false);
+    document.title = `Aura & Iron — Health & Fitness Journal`;
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleSelectCategory = (category: string) => {
+    const slug = CATEGORY_TO_SLUG_MAP[category];
+    const newPath = slug ? `/${slug}` : '/';
+    if (window.location.pathname !== newPath) {
+      window.history.pushState({}, '', newPath);
+    }
+    setActiveArticleId(null);
+    setSelectedCategory(category);
+    setIsCalculatorOpen(false);
+    setIsSavedDrawerOpen(false);
+    document.title = `${category} — Aura & Iron`;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleOpenCalculator = () => {
+    if (window.location.pathname !== '/calculators') {
+      window.history.pushState({}, '', '/calculators');
+    }
+    setIsCalculatorOpen(true);
+    setIsSavedDrawerOpen(false);
+    document.title = `Bioenergetics & Protein Calculator — Aura & Iron`;
+  };
+
+  const handleCloseCalculator = () => {
+    setIsCalculatorOpen(false);
+    if (window.location.pathname === '/calculators') {
+      if (activeArticleId) {
+        const art = ARTICLES.find((a) => a.id === activeArticleId);
+        window.history.pushState({}, '', art ? `/${art.slug}` : '/');
+      } else if (selectedCategory !== 'All Articles') {
+        const slug = CATEGORY_TO_SLUG_MAP[selectedCategory];
+        window.history.pushState({}, '', slug ? `/${slug}` : '/');
+      } else {
+        window.history.pushState({}, '', '/');
+      }
+    }
+  };
+
+  const handleOpenSaved = () => {
+    if (window.location.pathname !== '/saved') {
+      window.history.pushState({}, '', '/saved');
+    }
+    setIsSavedDrawerOpen(true);
+    setIsCalculatorOpen(false);
+    document.title = `Saved Investigations Archive — Aura & Iron`;
+  };
+
+  const handleCloseSaved = () => {
+    setIsSavedDrawerOpen(false);
+    if (window.location.pathname === '/saved') {
+      if (activeArticleId) {
+        const art = ARTICLES.find((a) => a.id === activeArticleId);
+        window.history.pushState({}, '', art ? `/${art.slug}` : '/');
+      } else if (selectedCategory !== 'All Articles') {
+        const slug = CATEGORY_TO_SLUG_MAP[selectedCategory];
+        window.history.pushState({}, '', slug ? `/${slug}` : '/');
+      } else {
+        window.history.pushState({}, '', '/');
+      }
+    }
   };
 
   const activeArticle = useMemo(() => {
@@ -122,13 +259,17 @@ export default function App() {
               Volume IV · Issue 10 · 10 Complete Peer-Reviewed Investigations
             </span>
           </div>
-          <button
-            onClick={() => setIsCalculatorOpen(true)}
+          <a
+            href="/calculators"
+            onClick={(e) => {
+              e.preventDefault();
+              handleOpenCalculator();
+            }}
             className="hidden sm:inline-flex items-center gap-1.5 text-stone-300 hover:text-white transition-colors cursor-pointer text-[11px]"
           >
             <Calculator className="w-3 h-3 text-amber-400" />
             <span>Open Bioenergetics &amp; Protein Calculator</span>
-          </button>
+          </a>
         </div>
       </div>
 
@@ -136,13 +277,10 @@ export default function App() {
       <Navbar
         currentView={activeArticle ? 'article' : 'home'}
         onNavigateHome={handleNavigateHome}
-        onOpenCalculator={() => setIsCalculatorOpen(true)}
-        onSelectCategory={(cat) => {
-          setSelectedCategory(cat);
-          if (activeArticle) handleNavigateHome();
-        }}
+        onOpenCalculator={handleOpenCalculator}
+        onSelectCategory={handleSelectCategory}
         savedCount={savedArticleIds.length}
-        onOpenSaved={() => setIsSavedDrawerOpen(true)}
+        onOpenSaved={handleOpenSaved}
         searchQuery={searchQuery}
         setSearchQuery={(q) => {
           setSearchQuery(q);
@@ -213,7 +351,7 @@ export default function App() {
 
               <CategoryFilter
                 selectedCategory={selectedCategory}
-                onSelectCategory={setSelectedCategory}
+                onSelectCategory={handleSelectCategory}
                 activeCount={filteredArticles.length}
               />
 
@@ -229,7 +367,7 @@ export default function App() {
                   </p>
                   <button
                     onClick={() => {
-                      setSelectedCategory('All Articles');
+                      handleSelectCategory('All Articles');
                       setSearchQuery('');
                     }}
                     className="mt-4 px-4 py-2 text-xs font-medium text-white bg-stone-900 rounded-lg hover:bg-stone-800 cursor-pointer"
@@ -268,13 +406,17 @@ export default function App() {
                 </p>
               </div>
 
-              <button
-                onClick={() => setIsCalculatorOpen(true)}
+              <a
+                href="/calculators"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleOpenCalculator();
+                }}
                 className="px-5 py-3 text-xs font-semibold uppercase tracking-wider text-white bg-stone-900 hover:bg-stone-800 rounded-xl transition-colors cursor-pointer shrink-0 shadow-xs flex items-center gap-2"
               >
                 <Calculator className="w-4 h-4" />
                 <span>Launch Calculator</span>
-              </button>
+              </a>
             </section>
 
             {/* Newsletter Section */}
@@ -285,23 +427,20 @@ export default function App() {
 
       {/* Footer */}
       <Footer
-        onSelectCategory={(cat) => {
-          setSelectedCategory(cat);
-          handleNavigateHome();
-        }}
-        onOpenCalculator={() => setIsCalculatorOpen(true)}
+        onSelectCategory={handleSelectCategory}
+        onOpenCalculator={handleOpenCalculator}
       />
 
       {/* Fitness Tool Calculator Modal */}
       <FitnessCalculatorModal
         isOpen={isCalculatorOpen}
-        onClose={() => setIsCalculatorOpen(false)}
+        onClose={handleCloseCalculator}
       />
 
       {/* Saved Bookmarks Drawer */}
       <SavedArticlesDrawer
         isOpen={isSavedDrawerOpen}
-        onClose={() => setIsSavedDrawerOpen(false)}
+        onClose={handleCloseSaved}
         savedArticles={savedArticlesList}
         onSelectArticle={handleSelectArticle}
         onRemoveBookmark={toggleBookmark}

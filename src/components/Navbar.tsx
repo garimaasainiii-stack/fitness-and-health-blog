@@ -31,8 +31,12 @@ export const Navbar: React.FC<NavbarProps> = ({
         <div className="flex items-center justify-between h-18">
           {/* Zone 1: Wordmark */}
           <div className="flex items-center gap-3">
-            <button
-              onClick={onNavigateHome}
+            <a
+              href="/"
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigateHome();
+              }}
               className="text-left group cursor-pointer"
             >
               <span className="font-serif text-2xl lg:text-3xl font-semibold tracking-tight text-stone-900 group-hover:text-stone-700 transition-colors">
@@ -41,64 +45,73 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span className="block text-[10px] uppercase tracking-[0.25em] text-stone-500 font-sans font-medium -mt-0.5">
                 Health &amp; Performance Journal
               </span>
-            </button>
+            </a>
           </div>
 
           {/* Zone 2: Navigation Links (4-6 text links) */}
           <nav className="hidden md:flex items-center gap-7 text-sm font-medium text-stone-600">
-            <button
-              onClick={onNavigateHome}
+            <a
+              href="/"
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigateHome();
+              }}
               className={`hover:text-stone-950 transition-colors cursor-pointer py-1 ${
                 currentView === 'home' && !searchQuery ? 'text-stone-950 font-semibold' : ''
               }`}
             >
               Latest Dispatch
-            </button>
-            <button
-              onClick={() => {
-                onNavigateHome();
+            </a>
+            <a
+              href="/strength"
+              onClick={(e) => {
+                e.preventDefault();
                 onSelectCategory('Strength & Training');
               }}
               className="hover:text-stone-950 transition-colors cursor-pointer py-1"
             >
               Strength
-            </button>
-            <button
-              onClick={() => {
-                onNavigateHome();
+            </a>
+            <a
+              href="/cardio"
+              onClick={(e) => {
+                e.preventDefault();
                 onSelectCategory('Cardio & Endurance');
               }}
               className="hover:text-stone-950 transition-colors cursor-pointer py-1"
             >
               Cardio
-            </button>
-            <button
-              onClick={() => {
-                onNavigateHome();
+            </a>
+            <a
+              href="/recovery"
+              onClick={(e) => {
+                e.preventDefault();
                 onSelectCategory('Recovery & Sleep');
               }}
               className="hover:text-stone-950 transition-colors cursor-pointer py-1"
             >
               Recovery
-            </button>
-            <button
-              onClick={() => {
-                onNavigateHome();
+            </a>
+            <a
+              href="/nutrition"
+              onClick={(e) => {
+                e.preventDefault();
                 onSelectCategory('Nutrition & Fuel');
               }}
               className="hover:text-stone-950 transition-colors cursor-pointer py-1"
             >
               Nutrition
-            </button>
-            <button
-              onClick={() => {
-                onNavigateHome();
+            </a>
+            <a
+              href="/longevity"
+              onClick={(e) => {
+                e.preventDefault();
                 onSelectCategory('Longevity & Science');
               }}
               className="hover:text-stone-950 transition-colors cursor-pointer py-1"
             >
               Longevity
-            </button>
+            </a>
           </nav>
 
           {/* Zone 3: Primary Actions */}
@@ -139,19 +152,27 @@ export const Navbar: React.FC<NavbarProps> = ({
             </div>
 
             {/* Health Tools Modal Button */}
-            <button
-              onClick={onOpenCalculator}
+            <a
+              href="/calculators"
+              onClick={(e) => {
+                e.preventDefault();
+                onOpenCalculator();
+              }}
               className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-stone-700 bg-stone-100 hover:bg-stone-200 rounded-lg transition-colors cursor-pointer"
               title="Interactive Physiological Calculator"
             >
               <Calculator className="w-3.5 h-3.5 text-stone-600" />
               <span>Bio-Calculators</span>
-            </button>
+            </a>
 
             {/* Saved Articles Drawer Trigger */}
-            <button
-              onClick={onOpenSaved}
-              className="relative p-2 text-stone-600 hover:text-stone-950 hover:bg-stone-100 rounded-lg transition-colors cursor-pointer"
+            <a
+              href="/saved"
+              onClick={(e) => {
+                e.preventDefault();
+                onOpenSaved();
+              }}
+              className="relative p-2 text-stone-600 hover:text-stone-950 hover:bg-stone-100 rounded-lg transition-colors cursor-pointer inline-flex items-center justify-center"
               title="Saved Articles"
               aria-label="View saved articles"
             >
@@ -161,7 +182,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   {savedCount}
                 </span>
               )}
-            </button>
+            </a>
 
             {/* Mobile menu hamburger */}
             <button
@@ -191,86 +212,97 @@ export const Navbar: React.FC<NavbarProps> = ({
             </div>
           </div>
           <div className="grid grid-cols-2 gap-2 text-xs font-medium text-stone-700">
-            <button
-              onClick={() => {
+            <a
+              href="/"
+              onClick={(e) => {
+                e.preventDefault();
                 onNavigateHome();
                 onSelectCategory('All Articles');
                 setMobileMenuOpen(false);
               }}
-              className="text-left px-3 py-2 bg-stone-100/60 rounded-md hover:bg-stone-100"
+              className="text-left px-3 py-2 bg-stone-100/60 rounded-md hover:bg-stone-100 block"
             >
               All Articles
-            </button>
-            <button
-              onClick={() => {
-                onNavigateHome();
+            </a>
+            <a
+              href="/strength"
+              onClick={(e) => {
+                e.preventDefault();
                 onSelectCategory('Strength & Training');
                 setMobileMenuOpen(false);
               }}
-              className="text-left px-3 py-2 bg-stone-100/60 rounded-md hover:bg-stone-100"
+              className="text-left px-3 py-2 bg-stone-100/60 rounded-md hover:bg-stone-100 block"
             >
               Strength &amp; Training
-            </button>
-            <button
-              onClick={() => {
-                onNavigateHome();
+            </a>
+            <a
+              href="/cardio"
+              onClick={(e) => {
+                e.preventDefault();
                 onSelectCategory('Cardio & Endurance');
                 setMobileMenuOpen(false);
               }}
-              className="text-left px-3 py-2 bg-stone-100/60 rounded-md hover:bg-stone-100"
+              className="text-left px-3 py-2 bg-stone-100/60 rounded-md hover:bg-stone-100 block"
             >
               Cardio &amp; Endurance
-            </button>
-            <button
-              onClick={() => {
-                onNavigateHome();
+            </a>
+            <a
+              href="/recovery"
+              onClick={(e) => {
+                e.preventDefault();
                 onSelectCategory('Recovery & Sleep');
                 setMobileMenuOpen(false);
               }}
-              className="text-left px-3 py-2 bg-stone-100/60 rounded-md hover:bg-stone-100"
+              className="text-left px-3 py-2 bg-stone-100/60 rounded-md hover:bg-stone-100 block"
             >
               Recovery &amp; Sleep
-            </button>
-            <button
-              onClick={() => {
-                onNavigateHome();
+            </a>
+            <a
+              href="/nutrition"
+              onClick={(e) => {
+                e.preventDefault();
                 onSelectCategory('Nutrition & Fuel');
                 setMobileMenuOpen(false);
               }}
-              className="text-left px-3 py-2 bg-stone-100/60 rounded-md hover:bg-stone-100"
+              className="text-left px-3 py-2 bg-stone-100/60 rounded-md hover:bg-stone-100 block"
             >
               Nutrition &amp; Fuel
-            </button>
-            <button
-              onClick={() => {
-                onNavigateHome();
+            </a>
+            <a
+              href="/longevity"
+              onClick={(e) => {
+                e.preventDefault();
                 onSelectCategory('Longevity & Science');
                 setMobileMenuOpen(false);
               }}
-              className="text-left px-3 py-2 bg-stone-100/60 rounded-md hover:bg-stone-100"
+              className="text-left px-3 py-2 bg-stone-100/60 rounded-md hover:bg-stone-100 block"
             >
               Longevity &amp; Science
-            </button>
+            </a>
           </div>
           <div className="pt-2 flex items-center gap-2">
-            <button
-              onClick={() => {
+            <a
+              href="/calculators"
+              onClick={(e) => {
+                e.preventDefault();
                 onOpenCalculator();
                 setMobileMenuOpen(false);
               }}
-              className="flex-1 py-2 text-xs font-medium text-center bg-stone-900 text-white rounded-lg"
+              className="flex-1 py-2 text-xs font-medium text-center bg-stone-900 text-white rounded-lg block"
             >
               Bio-Calculators Tool
-            </button>
-            <button
-              onClick={() => {
+            </a>
+            <a
+              href="/saved"
+              onClick={(e) => {
+                e.preventDefault();
                 onOpenSaved();
                 setMobileMenuOpen(false);
               }}
-              className="py-2 px-4 text-xs font-medium border border-stone-300 rounded-lg text-stone-800"
+              className="py-2 px-4 text-xs font-medium border border-stone-300 rounded-lg text-stone-800 text-center block"
             >
               Saved ({savedCount})
-            </button>
+            </a>
           </div>
         </div>
       )}

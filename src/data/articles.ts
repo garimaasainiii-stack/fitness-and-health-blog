@@ -12,8 +12,8 @@ import fruitPlatterImage from '../assets/images/fresh_fruit_platter_179117700277
 
 export const ARTICLES: Article[] = [
   {
-    id: 'zone-2-aerobic-engine',
-    slug: 'zone-2-aerobic-engine-for-longevity',
+    id: 'zone-2-cardio',
+    slug: 'zone-2-cardio',
     title: 'Zone 2 Cardiovascular Training: Building the Aerobic Engine for Longevity',
     subtitle: 'Why low-intensity steady-state endurance remains the foundation of metabolic flexibility, mitochondrial density, and cellular clearance.',
     category: 'Cardio & Endurance',
@@ -94,8 +94,8 @@ export const ARTICLES: Article[] = [
     initialLikes: 142
   },
   {
-    id: 'hypertrophy-mechanical-tension',
-    slug: 'the-science-of-hypertrophy-and-mechanical-tension',
+    id: 'hypertrophy-science',
+    slug: 'hypertrophy-science',
     title: 'The Science of Hypertrophy: Progressive Overload & Mechanical Tension',
     subtitle: 'Deconstructing mechanotransduction, effective reps, and the myth of muscle confusion.',
     category: 'Strength & Training',
@@ -168,8 +168,8 @@ export const ARTICLES: Article[] = [
     initialLikes: 215
   },
   {
-    id: 'circadian-biology-sleep-architecture',
-    slug: 'circadian-biology-and-sleep-architecture',
+    id: 'sleep-architecture',
+    slug: 'sleep-architecture',
     title: 'Circadian Biology & Sleep Architecture: Optimizing Deep & REM Cycles',
     subtitle: 'The molecular gears of suprachiasmatic regulation, core body temperature shifts, and glymphatic clearance.',
     category: 'Recovery & Sleep',
@@ -235,8 +235,8 @@ export const ARTICLES: Article[] = [
     initialLikes: 189
   },
   {
-    id: 'protein-pacing-leucine-threshold',
-    slug: 'protein-pacing-and-leucine-thresholds',
+    id: 'protein-pacing',
+    slug: 'protein-pacing',
     title: 'Protein Pacing & Leucine Thresholds: Precision Fueling for Muscle Preservation',
     subtitle: 'Navigating muscle protein synthesis, essential amino acid kinetics, and optimal per-meal protein distribution.',
     category: 'Nutrition & Fuel',
@@ -302,8 +302,8 @@ export const ARTICLES: Article[] = [
     initialLikes: 176
   },
   {
-    id: 'cold-plunge-thermal-hormesis',
-    slug: 'cold-plunge-and-thermal-contrast-protocol',
+    id: 'cold-plunge-protocol',
+    slug: 'cold-plunge-protocol',
     title: 'The Cold Plunge & Thermal Contrast Protocol: Hormesis, Dopamine, and Immune Resilience',
     subtitle: 'The physiological trade-offs between acute inflammation suppression, brown adipose tissue thermogenesis, and catecholamine release.',
     category: 'Recovery & Sleep',
@@ -369,8 +369,8 @@ export const ARTICLES: Article[] = [
     initialLikes: 198
   },
   {
-    id: 'importance-of-mental-health-and-self-care',
-    slug: 'the-importance-of-mental-health-and-self-care-in-the-modern-world',
+    id: 'mental-health-self-care',
+    slug: 'mental-health-self-care',
     title: 'The Importance of Mental Health & Self-Care in the Modern World',
     subtitle: 'From chronic cognitive overload to nervous system restoration: neurobiology, boundary architecture, and evidence-based self-care.',
     category: 'Mental Resilience',
@@ -448,8 +448,8 @@ export const ARTICLES: Article[] = [
     initialLikes: 231
   },
   {
-    id: 'functional-mobility-joint-longevity',
-    slug: 'functional-mobility-over-passive-stretching',
+    id: 'functional-mobility',
+    slug: 'functional-mobility',
     title: 'Functional Mobility over Passive Stretching: Building Joint Longevity & Hip Extension',
     subtitle: 'Why static flexibility without end-range motor control leaves joints vulnerable, and how FRC principles transform tissue resilience.',
     category: 'Strength & Training',
@@ -515,8 +515,8 @@ export const ARTICLES: Article[] = [
     initialLikes: 138
   },
   {
-    id: 'managing-cortisol-sympathetic-downregulation',
-    slug: 'managing-cortisol-and-sympathetic-downregulation',
+    id: 'cortisol-stress-relief',
+    slug: 'cortisol-stress-relief',
     title: 'Managing Cortisol & Sympathetic Tone: The Science of Deliberate Downregulation',
     subtitle: 'Breaking the chronic fight-or-flight loop through physiological sighs, HRV biofeedback, and vagal stimulation.',
     category: 'Mental Resilience',
@@ -581,8 +581,8 @@ export const ARTICLES: Article[] = [
     initialLikes: 182
   },
   {
-    id: 'intermittent-fasting-autophagy-myths',
-    slug: 'intermittent-fasting-and-autophagy-myths',
+    id: 'intermittent-fasting',
+    slug: 'intermittent-fasting',
     title: 'Intermittent Fasting & Autophagy: Debunking Myths & Structuring Feeding Windows',
     subtitle: 'Separating clinical metabolic reality from internet hype: energy balance, insulin dynamics, and cellular recycling.',
     category: 'Longevity & Science',
@@ -647,8 +647,8 @@ export const ARTICLES: Article[] = [
     initialLikes: 153
   },
   {
-    id: 'micronutrient-matrix-fruit-polyphenols',
-    slug: 'the-micronutrient-matrix-fruit-polyphenols-and-cellular-longevity',
+    id: 'fruit-polyphenols',
+    slug: 'fruit-polyphenols',
     title: 'The Micronutrient Matrix: How Fruit Polyphenols, Anthocyanins & Fiber Drive Cellular Longevity',
     subtitle: 'Deconstructing cellular senescence, Nrf2 gene activation, the whole-food fiber matrix, and the myth of fruit fructose toxicity.',
     category: 'Nutrition & Fuel',

@@ -33,44 +33,64 @@ export const Footer: React.FC<FooterProps> = ({
             </h4>
             <ul className="space-y-2 text-stone-600">
               <li>
-                <button
-                  onClick={() => onSelectCategory('Strength & Training')}
-                  className="hover:text-stone-900 transition-colors cursor-pointer"
+                <a
+                  href="/strength"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onSelectCategory('Strength & Training');
+                  }}
+                  className="hover:text-stone-900 transition-colors cursor-pointer block"
                 >
                   Strength &amp; Hypertrophy
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => onSelectCategory('Cardio & Endurance')}
-                  className="hover:text-stone-900 transition-colors cursor-pointer"
+                <a
+                  href="/cardio"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onSelectCategory('Cardio & Endurance');
+                  }}
+                  className="hover:text-stone-900 transition-colors cursor-pointer block"
                 >
                   Cardiorespiratory &amp; Zone 2
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => onSelectCategory('Recovery & Sleep')}
-                  className="hover:text-stone-900 transition-colors cursor-pointer"
+                <a
+                  href="/recovery"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onSelectCategory('Recovery & Sleep');
+                  }}
+                  className="hover:text-stone-900 transition-colors cursor-pointer block"
                 >
                   Circadian Biology &amp; Sleep
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => onSelectCategory('Nutrition & Fuel')}
-                  className="hover:text-stone-900 transition-colors cursor-pointer"
+                <a
+                  href="/nutrition"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onSelectCategory('Nutrition & Fuel');
+                  }}
+                  className="hover:text-stone-900 transition-colors cursor-pointer block"
                 >
                   Metabolic Fueling &amp; Protein
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => onSelectCategory('Longevity & Science')}
-                  className="hover:text-stone-900 transition-colors cursor-pointer"
+                <a
+                  href="/longevity"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onSelectCategory('Longevity & Science');
+                  }}
+                  className="hover:text-stone-900 transition-colors cursor-pointer block"
                 >
                   Longevity &amp; Aging Science
-                </button>
+                </a>
               </li>
             </ul>
           </div>
@@ -82,12 +102,16 @@ export const Footer: React.FC<FooterProps> = ({
             </h4>
             <ul className="space-y-2 text-stone-600">
               <li>
-                <button
-                  onClick={onOpenCalculator}
+                <a
+                  href="/calculators"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onOpenCalculator();
+                  }}
                   className="hover:text-stone-900 transition-colors cursor-pointer flex items-center gap-1.5"
                 >
                   <span>Interactive Bio-Calculators (Zone 2 &amp; Protein)</span>
-                </button>
+                </a>
               </li>
               <li>
                 <span className="text-stone-500">
