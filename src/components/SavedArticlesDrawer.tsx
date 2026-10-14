@@ -60,12 +60,15 @@ export const SavedArticlesDrawer: React.FC<SavedArticlesDrawerProps> = ({
                 className="group bg-white border border-stone-200 rounded-xl p-4 transition-all hover:border-stone-400 hover:shadow-2xs"
               >
                 <div className="flex items-start justify-between gap-3">
-                  <div
-                    onClick={() => {
+                  <a
+                    href={`/${article.slug}`}
+                    onClick={(e) => {
+                      e.preventDefault();
                       onSelectArticle(article);
                       onClose();
                     }}
-                    className="cursor-pointer flex-1"
+                    aria-label={`Read saved article: ${article.title}`}
+                    className="cursor-pointer flex-1 block"
                   >
                     <span className="text-[10px] uppercase tracking-wider font-semibold text-amber-800 block mb-1">
                       {article.category} · {article.readTime}
@@ -76,7 +79,7 @@ export const SavedArticlesDrawer: React.FC<SavedArticlesDrawerProps> = ({
                     <p className="text-xs text-stone-500 mt-2 font-mono">
                       By {article.author.name}
                     </p>
-                  </div>
+                  </a>
 
                   <button
                     onClick={() => onRemoveBookmark(article.id)}
@@ -88,16 +91,20 @@ export const SavedArticlesDrawer: React.FC<SavedArticlesDrawerProps> = ({
                 </div>
 
                 <div className="mt-3 pt-3 border-t border-stone-100 flex justify-end">
-                  <button
-                    onClick={() => {
+                  <a
+                    href={`/${article.slug}`}
+                    onClick={(e) => {
+                      e.preventDefault();
                       onSelectArticle(article);
                       onClose();
                     }}
+                    aria-label={`Read full saved article: ${article.title}`}
                     className="inline-flex items-center gap-1 text-xs font-semibold text-stone-900 hover:text-amber-800 transition-colors cursor-pointer"
                   >
                     <span>Read Article</span>
+                    <span className="sr-only">: {article.title}</span>
                     <ArrowRight className="w-3 h-3" />
-                  </button>
+                  </a>
                 </div>
               </div>
             ))

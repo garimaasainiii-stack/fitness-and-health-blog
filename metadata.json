@@ -1,6 +1,6 @@
 {
   "name": "Aura & Iron — Health & Fitness Journal",
-  "description": "An evidence-based editorial journal exploring human performance, biomechanics, cellular nutrition, and longevity science.",
+  "description": "Explore science-backed fitness and health tips on training, cellular recovery, and longevity. Discover practical protocols designed for sustainable wellness.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

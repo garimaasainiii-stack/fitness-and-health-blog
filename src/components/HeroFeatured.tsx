@@ -20,13 +20,18 @@ export const HeroFeatured: React.FC<HeroFeaturedProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
         {/* Left Column: Visual Asset (7 cols) */}
         <div className="lg:col-span-7 order-2 lg:order-1">
-          <div
-            onClick={() => onReadArticle(article)}
-            className="group relative aspect-16/10 sm:aspect-16/9 overflow-hidden rounded-xl bg-stone-100 cursor-pointer border border-stone-200/80 shadow-xs"
+          <a
+            href={`/${article.slug}`}
+            onClick={(e) => {
+              e.preventDefault();
+              onReadArticle(article);
+            }}
+            aria-label={`Read featured investigation: ${article.title}`}
+            className="group relative aspect-16/10 sm:aspect-16/9 overflow-hidden rounded-xl bg-stone-100 cursor-pointer border border-stone-200/80 shadow-xs block"
           >
             <img
               src={article.coverImage}
-              alt={article.title}
+              alt={article.coverImageAlt || article.title}
               referrerPolicy="no-referrer"
               className="w-full h-full object-cover object-center group-hover:scale-102 transition-transform duration-500 ease-out"
               onError={(e) => {
@@ -45,7 +50,7 @@ export const HeroFeatured: React.FC<HeroFeaturedProps> = ({
                 {article.wordCount} words
               </span>
             </div>
-          </div>
+          </a>
         </div>
 
         {/* Right Column: Lead Editorial Content (5 cols) */}
@@ -88,7 +93,7 @@ export const HeroFeatured: React.FC<HeroFeaturedProps> = ({
             <div className="flex items-center gap-3">
               <img
                 src={article.author.avatar}
-                alt={article.author.name}
+                alt={`Portrait of ${article.author.name}, ${article.author.role}`}
                 className="w-10 h-10 rounded-full object-cover border border-stone-300"
                 onError={(e) => {
                   (e.target as HTMLElement).style.display = 'none';
@@ -127,9 +132,11 @@ export const HeroFeatured: React.FC<HeroFeaturedProps> = ({
                   e.preventDefault();
                   onReadArticle(article);
                 }}
+                aria-label={`Read full article: ${article.title}`}
                 className="inline-flex items-center gap-2 px-4 py-2 text-xs font-medium text-white bg-stone-900 rounded-lg hover:bg-stone-800 transition-colors cursor-pointer"
               >
-                <span>Read Story</span>
+                <span>Read Full Article</span>
+                <span className="sr-only">: {article.title}</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </a>
             </div>

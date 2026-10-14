@@ -35,6 +35,20 @@ const CATEGORY_TO_SLUG_MAP: Record<string, string> = {
   'Mental Resilience': 'resilience',
 };
 
+const HOMEPAGE_META_DESCRIPTION =
+  'Explore science-backed fitness and health tips on training, cellular recovery, and longevity. Discover practical protocols designed for sustainable wellness.';
+
+const updateMetaDescription = (description: string) => {
+  const meta = document.querySelector('meta[name="description"]');
+  if (meta) {
+    meta.setAttribute('content', description);
+  }
+  const ogDesc = document.querySelector('meta[property="og:description"]');
+  if (ogDesc) {
+    ogDesc.setAttribute('content', description);
+  }
+};
+
 export default function App() {
   const [activeArticleId, setActiveArticleId] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('All Articles');
@@ -94,26 +108,31 @@ export default function App() {
       setIsCalculatorOpen(false);
       setIsSavedDrawerOpen(false);
       document.title = route.article.seoTitle || `${route.article.title} — Aura & Iron`;
+      updateMetaDescription(route.article.metaDescription || HOMEPAGE_META_DESCRIPTION);
     } else if (route.type === 'category' && route.category) {
       setActiveArticleId(null);
       setSelectedCategory(route.category);
       setIsCalculatorOpen(false);
       setIsSavedDrawerOpen(false);
       document.title = `${route.category} — Aura & Iron`;
+      updateMetaDescription(HOMEPAGE_META_DESCRIPTION);
     } else if (route.type === 'calculators') {
       setIsCalculatorOpen(true);
       setIsSavedDrawerOpen(false);
       document.title = `Bioenergetics & Protein Calculator — Aura & Iron`;
+      updateMetaDescription(HOMEPAGE_META_DESCRIPTION);
     } else if (route.type === 'saved') {
       setIsSavedDrawerOpen(true);
       setIsCalculatorOpen(false);
       document.title = `Saved Investigations Archive — Aura & Iron`;
+      updateMetaDescription(HOMEPAGE_META_DESCRIPTION);
     } else {
       setActiveArticleId(null);
       setSelectedCategory('All Articles');
       setIsCalculatorOpen(false);
       setIsSavedDrawerOpen(false);
       document.title = `Fitness and Health Tips: Evidence-Based Longevity Journal`;
+      updateMetaDescription(HOMEPAGE_META_DESCRIPTION);
     }
   }, [resolveRoute]);
 
@@ -170,6 +189,7 @@ export default function App() {
     setIsCalculatorOpen(false);
     setIsSavedDrawerOpen(false);
     document.title = article.seoTitle || `${article.title} — Aura & Iron`;
+    updateMetaDescription(article.metaDescription || HOMEPAGE_META_DESCRIPTION);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -183,6 +203,7 @@ export default function App() {
     setIsCalculatorOpen(false);
     setIsSavedDrawerOpen(false);
     document.title = `Fitness and Health Tips: Evidence-Based Longevity Journal`;
+    updateMetaDescription(HOMEPAGE_META_DESCRIPTION);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -197,6 +218,7 @@ export default function App() {
     setIsCalculatorOpen(false);
     setIsSavedDrawerOpen(false);
     document.title = `${category} — Aura & Iron`;
+    updateMetaDescription(HOMEPAGE_META_DESCRIPTION);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -207,6 +229,7 @@ export default function App() {
     setIsCalculatorOpen(true);
     setIsSavedDrawerOpen(false);
     document.title = `Bioenergetics & Protein Calculator — Aura & Iron`;
+    updateMetaDescription(HOMEPAGE_META_DESCRIPTION);
   };
 
   const handleCloseCalculator = () => {
@@ -369,13 +392,13 @@ export default function App() {
                 <div>
                   <h2 className="font-serif text-2xl sm:text-3xl font-bold text-stone-900 tracking-tight">
                     {selectedCategory === 'All Articles'
-                      ? 'The Complete Compendium'
-                      : `${selectedCategory}`}
+                      ? 'What Are the Evidence-Based Foundations of Human Longevity & Fitness?'
+                      : `What Science-Backed Protocols Define ${selectedCategory}?`}
                   </h2>
                   <p className="text-xs sm:text-sm text-stone-500 mt-1">
                     {selectedCategory === 'All Articles'
-                      ? 'Exploring every essential fitness and health topic with scientific rigor, practical fit and healthy tips, and evidence-based fitness and health tips for lifelong performance.'
-                      : `Curated investigations and fit and healthy tips under the ${selectedCategory} department.`}
+                      ? 'To sustain lifelong functional capacity, peer-reviewed clinical research demonstrates that integrating low-intensity Zone 2 endurance, progressive resistance training, circadian photic entrainment, and targeted protein pacing maximizes mitochondrial biogenesis, preserves lean skeletal muscle, and mitigates all-cause mortality risk.'
+                      : `Under the ${selectedCategory} department, clinical trials and biomechanical studies demonstrate that targeted stimulus progression, adequate physiological volume, and disciplined recovery optimize long-term healthspan and athletic performance.`}
                   </p>
                 </div>
               </div>
@@ -429,11 +452,11 @@ export default function App() {
                   <Sparkles className="w-3.5 h-3.5 text-amber-800" />
                   Interactive Physiological Protocol Tool
                 </span>
-                <h3 className="font-serif text-xl sm:text-2xl font-bold text-stone-900">
-                  Calculate Your Personal Zone 2 Floor &amp; Protein Requirements
-                </h3>
+                <h2 className="font-serif text-xl sm:text-2xl font-bold text-stone-900">
+                  How Do You Calculate Your Target Zone 2 Heart Rate and Daily Protein Needs?
+                </h2>
                 <p className="text-xs sm:text-sm text-stone-600 max-w-xl leading-relaxed">
-                  Apply the formulas discussed in our dispatches. Calculate your exact heart rate bounds via the Tanaka/Karvonen equation and optimize your leucine distribution.
+                  You can calculate your ideal Zone 2 aerobic threshold by combining the Tanaka formula (208 − 0.7 × age) with your resting heart rate via the Karvonen heart rate reserve method to identify your peak lipid-oxidation zone, while targeting 1.6 to 2.2 grams of protein per kilogram of body weight distributed across three to four daily meals to stimulate muscle protein synthesis.
                 </p>
               </div>
 
@@ -443,10 +466,11 @@ export default function App() {
                   e.preventDefault();
                   handleOpenCalculator();
                 }}
+                aria-label="Launch interactive Zone 2 heart rate and protein intake calculator"
                 className="px-5 py-3 text-xs font-semibold uppercase tracking-wider text-white bg-stone-900 hover:bg-stone-800 rounded-xl transition-colors cursor-pointer shrink-0 shadow-xs flex items-center gap-2"
               >
                 <Calculator className="w-4 h-4" />
-                <span>Launch Calculator</span>
+                <span>Launch Bioenergetics Calculator</span>
               </a>
             </section>
 

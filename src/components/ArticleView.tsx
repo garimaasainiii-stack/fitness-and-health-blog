@@ -11,7 +11,9 @@ import {
   BookOpen,
   Calendar,
   Clock,
-  Sparkles
+  Sparkles,
+  ArrowRight,
+  ArrowUpRight
 } from 'lucide-react';
 
 interface ArticleViewProps {
@@ -84,10 +86,32 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
     }
   };
 
-  // Get related articles in same or adjacent categories
-  const relatedArticles = allArticles
-    .filter((a) => a.id !== article.id)
-    .slice(0, 3);
+  // Curated internal links between scientifically related articles
+  const RELATED_ARTICLES_MAP: Record<string, string[]> = {
+    'zone-2-cardio': ['vo2-max', 'sleep-architecture', 'intermittent-fasting'],
+    'hypertrophy-science': ['protein-pacing', 'functional-mobility', 'cold-plunge-protocol'],
+    'sleep-architecture': ['cortisol-stress-relief', 'cold-plunge-protocol', 'intermittent-fasting'],
+    'protein-pacing': ['hypertrophy-science', 'gut-microbiome', 'intermittent-fasting'],
+    'cold-plunge-protocol': ['sleep-architecture', 'cortisol-stress-relief', 'hypertrophy-science'],
+    'gut-microbiome': ['protein-pacing', 'cortisol-stress-relief', 'intermittent-fasting'],
+    'functional-mobility': ['hypertrophy-science', 'zone-2-cardio', 'cold-plunge-protocol'],
+    'cortisol-stress-relief': ['sleep-architecture', 'cold-plunge-protocol', 'gut-microbiome'],
+    'intermittent-fasting': ['protein-pacing', 'zone-2-cardio', 'gut-microbiome'],
+    'vo2-max': ['zone-2-cardio', 'hypertrophy-science', 'sleep-architecture'],
+  };
+
+  // Get curated related articles with fallback to same or adjacent categories
+  const relatedArticles = React.useMemo(() => {
+    const relatedIds = RELATED_ARTICLES_MAP[article.id] || RELATED_ARTICLES_MAP[article.slug] || [];
+    const matched = relatedIds
+      .map((id) => allArticles.find((a) => a.id === id || a.slug === id))
+      .filter((a): a is Article => Boolean(a));
+    if (matched.length >= 3) return matched.slice(0, 3);
+    const fallbacks = allArticles.filter(
+      (a) => a.id !== article.id && !matched.some((m) => m.id === a.id)
+    );
+    return [...matched, ...fallbacks].slice(0, 3);
+  }, [article.id, article.slug, allArticles]);
 
   const getFontSizeClass = () => {
     switch (fontSize) {
@@ -115,13 +139,18 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
       {/* Article Utility Bar */}
       <div className="sticky top-18 z-30 bg-[#FAF8F5]/90 backdrop-blur-md border-b border-stone-200/80 py-3 mb-8">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 flex items-center justify-between">
-          <button
-            onClick={onBack}
+          <a
+            href="/"
+            onClick={(e) => {
+              e.preventDefault();
+              onBack();
+            }}
+            aria-label="Return to Journal Index"
             className="inline-flex items-center gap-2 text-xs font-semibold text-stone-700 hover:text-stone-950 transition-colors cursor-pointer group"
           >
             <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-1 transition-transform" />
             <span>Back to Journal Index</span>
-          </button>
+          </a>
 
           <div className="flex items-center gap-2 sm:gap-4">
             {/* Font Size Adjuster */}
@@ -222,7 +251,7 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
           <div className="flex items-center gap-3.5">
             <img
               src={article.author.avatar}
-              alt={article.author.name}
+              alt={`Portrait of ${article.author.name}`}
               className="w-12 h-12 rounded-full object-cover border border-stone-300"
               onError={(e) => {
                 (e.target as HTMLElement).style.display = 'none';
@@ -261,7 +290,7 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
           <div className="aspect-16/9 w-full overflow-hidden rounded-xl bg-stone-100 border border-stone-200">
             <img
               src={article.coverImage}
-              alt={article.title}
+              alt={article.coverImageAlt || article.title}
               referrerPolicy="no-referrer"
               className="w-full h-full object-cover"
               onError={(e) => {
@@ -285,34 +314,78 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
                   <ListOrdered className="w-3.5 h-3.5 text-stone-500" />
                   <span>Contents</span>
                 </div>
-                <nav className="space-y-2 text-xs">
-                  <button
-                    onClick={() => scrollToSection('introduction')}
+                <nav className="space-y-2 text-xs" aria-label="Table of contents">
+                  <a
+                    href="#introduction"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollToSection('introduction');
+                    }}
                     className="block w-full text-left text-stone-600 hover:text-stone-950 transition-colors cursor-pointer"
                   >
                     01. Introduction
-                  </button>
+                  </a>
                   {article.sections.map((sec, idx) => (
-                    <button
+                    <a
                       key={sec.id}
-                      onClick={() => scrollToSection(sec.id)}
+                      href={`#${sec.id}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        scrollToSection(sec.id);
+                      }}
                       className="block w-full text-left text-stone-600 hover:text-stone-950 transition-colors cursor-pointer"
                     >
                       {String(idx + 2).padStart(2, '0')}. {sec.heading}
-                    </button>
+                    </a>
                   ))}
-                  <button
-                    onClick={() => scrollToSection('protocol-checklist')}
+                  <a
+                    href="#protocol-checklist"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollToSection('protocol-checklist');
+                    }}
                     className="block w-full text-left text-stone-600 hover:text-stone-950 transition-colors cursor-pointer"
                   >
                     {String(article.sections.length + 2).padStart(2, '0')}. Protocol Checklist
-                  </button>
-                  <button
-                    onClick={() => scrollToSection('conclusion')}
+                  </a>
+                  <a
+                    href="#conclusion"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollToSection('conclusion');
+                    }}
                     className="block w-full text-left text-stone-600 hover:text-stone-950 transition-colors cursor-pointer"
                   >
                     {String(article.sections.length + 3).padStart(2, '0')}. Conclusion
-                  </button>
+                  </a>
+                </nav>
+              </div>
+
+              {/* Related Internal Dispatches */}
+              <div className="bg-white border border-stone-200/90 rounded-xl p-5 shadow-2xs">
+                <p className="text-xs font-semibold text-stone-900 uppercase tracking-wider mb-3">
+                  Related Dispatches
+                </p>
+                <nav className="space-y-3" aria-label="Related internal articles">
+                  {relatedArticles.map((rel) => (
+                    <a
+                      key={rel.id}
+                      href={`/${rel.slug}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        onSelectArticle(rel);
+                      }}
+                      aria-label={`Read related dispatch: ${rel.title}`}
+                      className="group block text-xs"
+                    >
+                      <span className="text-[10px] font-mono text-amber-800 uppercase font-semibold block mb-0.5">
+                        {rel.category}
+                      </span>
+                      <span className="font-serif font-bold text-stone-900 group-hover:text-amber-800 transition-colors line-clamp-2 leading-snug">
+                        {rel.title}
+                      </span>
+                    </a>
+                  ))}
                 </nav>
               </div>
 
@@ -414,9 +487,19 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
                         {section.callout.text}
                       </p>
                       {section.callout.source && (
-                        <p className="text-[11px] font-mono text-stone-400 italic">
-                          Reference: {section.callout.source}
-                        </p>
+                        <div className="text-[11px] font-mono text-stone-400 italic flex items-center justify-between mt-2 pt-2 border-t border-stone-100">
+                          <span>Reference: {section.callout.source}</span>
+                          <a
+                            href={`https://pubmed.ncbi.nlm.nih.gov/?term=${encodeURIComponent(section.callout.source)}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label={`View indexed peer-reviewed source for ${section.callout.title} on PubMed`}
+                            className="text-amber-800 hover:text-amber-950 font-sans font-medium text-[11px] inline-flex items-center gap-1 transition-colors not-italic"
+                          >
+                            <span>PubMed Citation</span>
+                            <ArrowUpRight className="w-3 h-3" />
+                          </a>
+                        </div>
                       )}
                     </aside>
                   )}
@@ -471,13 +554,52 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
               </div>
             </div>
 
+            {/* Contextual Internal Article Cross-References */}
+            <div className="my-10 bg-stone-50 border border-stone-200 rounded-xl p-5 sm:p-6">
+              <div className="flex items-center gap-2 text-xs font-semibold text-stone-900 uppercase tracking-wider mb-2">
+                <Sparkles className="w-3.5 h-3.5 text-amber-800" />
+                <span>Cross-Referenced Physiological Investigations</span>
+              </div>
+              <p className="text-xs text-stone-600 mb-4 leading-relaxed">
+                Deepen your understanding of these mechanisms with closely related dispatches from our research compendium:
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {relatedArticles.slice(0, 2).map((rel) => (
+                  <a
+                    key={rel.id}
+                    href={`/${rel.slug}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      onSelectArticle(rel);
+                    }}
+                    aria-label={`Read cross-referenced companion dispatch: ${rel.title}`}
+                    className="p-3 bg-white border border-stone-200/80 rounded-lg hover:border-stone-400 transition-colors group flex flex-col justify-between"
+                  >
+                    <div>
+                      <span className="text-[10px] font-mono text-amber-800 uppercase font-semibold block mb-1">
+                        {rel.category} · {rel.readTime}
+                      </span>
+                      <h4 className="font-serif text-sm font-bold text-stone-900 group-hover:text-amber-800 transition-colors line-clamp-2">
+                        {rel.title}
+                      </h4>
+                    </div>
+                    <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-stone-700 group-hover:text-amber-800 transition-colors mt-2">
+                      <span>Read companion dispatch</span>
+                      <span className="sr-only">: {rel.title}</span>
+                      <ArrowRight className="w-3 h-3" />
+                    </span>
+                  </a>
+                ))}
+              </div>
+            </div>
+
             {/* Conclusion */}
             <section id="conclusion" className="scroll-mt-28 border-t border-stone-200 pt-8 mb-12">
               <span className="font-mono text-xs text-stone-400 font-medium block mb-1">
                 SUMMARY
               </span>
               <h2 className="font-serif text-2xl sm:text-3xl font-bold text-stone-900 tracking-tight mb-4">
-                Conclusion
+                What Is the Core Takeaway for Long-Term Healthspan?
               </h2>
               <p className={`${getFontSizeClass()} text-stone-700 leading-relaxed font-sans`}>
                 {article.conclusion}
@@ -488,7 +610,7 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
             <div className="bg-stone-50 border border-stone-200 rounded-xl p-6 mb-12 flex flex-col sm:flex-row items-start gap-4">
               <img
                 src={article.author.avatar}
-                alt={article.author.name}
+                alt={`Portrait of ${article.author.name}`}
                 className="w-14 h-14 rounded-full object-cover border border-stone-300 shrink-0"
                 onError={(e) => {
                   (e.target as HTMLElement).style.display = 'none';
@@ -515,27 +637,38 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
             <h3 className="font-serif text-2xl font-bold text-stone-900">
               Related Investigations
             </h3>
-            <button
-              onClick={onBack}
+            <a
+              href="/"
+              onClick={(e) => {
+                e.preventDefault();
+                onBack();
+              }}
+              aria-label="Browse all 10 published investigations"
               className="text-xs font-semibold text-stone-600 hover:text-stone-900 transition-colors cursor-pointer"
             >
               Browse all 10 dispatches →
-            </button>
+            </a>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {relatedArticles.map((rel) => (
-              <div
+              <a
                 key={rel.id}
-                onClick={() => onSelectArticle(rel)}
+                href={`/${rel.slug}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  onSelectArticle(rel);
+                }}
+                aria-label={`Read related investigation: ${rel.title}`}
                 className="group bg-white border border-stone-200 rounded-lg p-4 cursor-pointer hover:border-stone-400 transition-colors flex flex-col justify-between"
               >
                 <div>
                   <div className="aspect-16/10 rounded-md overflow-hidden bg-stone-100 mb-3">
                     <img
                       src={rel.coverImage}
-                      alt={rel.title}
+                      alt={rel.coverImageAlt || rel.title}
                       referrerPolicy="no-referrer"
+                      loading="lazy"
                       className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-300"
                       onError={(e) => {
                         (e.target as HTMLElement).style.display = 'none';
@@ -549,10 +682,15 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
                     {rel.title}
                   </h4>
                 </div>
-                <p className="text-xs text-stone-500 mt-3 pt-3 border-t border-stone-100">
-                  By {rel.author.name}
-                </p>
-              </div>
+                <div className="text-xs text-stone-500 mt-3 pt-3 border-t border-stone-100 flex items-center justify-between">
+                  <span>By {rel.author.name}</span>
+                  <span className="font-semibold text-stone-800 group-hover:text-amber-800 transition-colors inline-flex items-center gap-1 text-[11px]">
+                    <span>Read Article</span>
+                    <span className="sr-only">: {rel.title}</span>
+                    <ArrowRight className="w-3 h-3" />
+                  </span>
+                </div>
+              </a>
             ))}
           </div>
         </div>

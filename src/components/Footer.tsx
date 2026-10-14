@@ -139,7 +139,15 @@ export const Footer: React.FC<FooterProps> = ({
           <div className="flex items-center gap-6">
             <span>Independent Science Publication</span>
             <span aria-hidden="true">·</span>
-            <span>ISSN 2894-1029</span>
+            <a
+              href="https://portal.issn.org/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-stone-600 transition-colors"
+              aria-label="Verify ISSN 2894-1029 registration on the ISSN International Portal"
+            >
+              ISSN 2894-1029
+            </a>
           </div>
         </div>
       </div>

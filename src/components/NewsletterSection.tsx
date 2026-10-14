@@ -20,10 +20,10 @@ export const NewsletterSection: React.FC = () => {
           Weekly Evidence Dispatch
         </span>
         <h2 className="font-serif text-3xl sm:text-4xl font-bold tracking-tight text-white mb-4" style={{ textWrap: 'balance' }}>
-          Deconstruct Human Physiology Straight to Your Inbox
+          How Can You Apply Weekly Peer-Reviewed Exercise &amp; Nutrition Science?
         </h2>
         <p className="text-stone-300 text-sm sm:text-base leading-relaxed mb-8">
-          Every Thursday morning, we translate landmark randomized trials into actionable protocols covering cellular bioenergetics, progressive resistance, and circadian hygiene.
+          Every Thursday morning, our editorial team deconstructs landmark randomized controlled trials into step-by-step training and nutritional protocols. We translate complex clinical data on cellular bioenergetics, resistance periodization, and circadian hygiene directly into sustainable physical habits to elevate your healthspan and daily performance.
         </p>
 
         {subscribed ? (

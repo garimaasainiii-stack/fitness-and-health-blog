@@ -21,13 +21,18 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
     <article className="group flex flex-col justify-between bg-white border border-stone-200/90 rounded-xl p-5 sm:p-6 transition-all duration-300 hover:border-stone-400 hover:shadow-xs">
       <div>
         {/* Cover Thumbnail with Zero Broken Image Fallback */}
-        <div
-          onClick={() => onReadArticle(article)}
-          className="relative aspect-16/10 w-full overflow-hidden rounded-lg bg-stone-100 mb-5 cursor-pointer"
+        <a
+          href={`/${article.slug}`}
+          onClick={(e) => {
+            e.preventDefault();
+            onReadArticle(article);
+          }}
+          aria-label={`Read article: ${article.title}`}
+          className="relative aspect-16/10 w-full overflow-hidden rounded-lg bg-stone-100 mb-5 cursor-pointer block"
         >
           <img
             src={article.coverImage}
-            alt={article.title}
+            alt={article.coverImageAlt || article.title}
             referrerPolicy="no-referrer"
             loading="lazy"
             className="w-full h-full object-cover object-center group-hover:scale-103 transition-transform duration-500 ease-out"
@@ -58,7 +63,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
           >
             <Bookmark className="w-3.5 h-3.5" />
           </button>
-        </div>
+        </a>
 
         {/* Unboxed Metadata with Typographic Separators (Strict Zero-Pill) */}
         <div className="flex items-center gap-2 text-xs text-stone-500 mb-2 font-medium">
@@ -100,7 +105,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
         <div className="flex items-center gap-2.5">
           <img
             src={article.author.avatar}
-            alt={article.author.name}
+            alt={`Portrait of ${article.author.name}`}
             className="w-7 h-7 rounded-full object-cover border border-stone-200"
             onError={(e) => {
               (e.target as HTMLElement).style.display = 'none';
@@ -122,9 +127,11 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
             e.preventDefault();
             onReadArticle(article);
           }}
+          aria-label={`Read full article: ${article.title}`}
           className="inline-flex items-center gap-1 text-xs font-semibold text-stone-900 hover:text-amber-800 transition-colors cursor-pointer"
         >
-          <span>Read</span>
+          <span>Read Article</span>
+          <span className="sr-only">: {article.title}</span>
           <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
         </a>
       </div>

@@ -37,6 +37,7 @@ export interface Article {
   slug: string;
   title: string;
   seoTitle?: string;
+  metaDescription?: string;
   subtitle: string;
   category: 'Strength & Training' | 'Cardio & Endurance' | 'Recovery & Sleep' | 'Nutrition & Fuel' | 'Longevity & Science' | 'Mental Resilience';
   author: Author;
@@ -44,6 +45,7 @@ export interface Article {
   readTime: string;
   wordCount: number;
   coverImage: string;
+  coverImageAlt?: string;
   fallbackGradient: string;
   isFeatured?: boolean;
   leadParagraph: string;
