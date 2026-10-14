@@ -93,7 +93,7 @@ export default function App() {
       setActiveArticleId(route.article.id);
       setIsCalculatorOpen(false);
       setIsSavedDrawerOpen(false);
-      document.title = `${route.article.title} — Aura & Iron`;
+      document.title = route.article.seoTitle || `${route.article.title} — Aura & Iron`;
     } else if (route.type === 'category' && route.category) {
       setActiveArticleId(null);
       setSelectedCategory(route.category);
@@ -113,7 +113,7 @@ export default function App() {
       setSelectedCategory('All Articles');
       setIsCalculatorOpen(false);
       setIsSavedDrawerOpen(false);
-      document.title = `Aura & Iron — Health & Fitness Journal`;
+      document.title = `Fitness and Health Tips: Evidence-Based Longevity Journal`;
     }
   }, [resolveRoute]);
 
@@ -169,7 +169,7 @@ export default function App() {
     setActiveArticleId(article.id);
     setIsCalculatorOpen(false);
     setIsSavedDrawerOpen(false);
-    document.title = `${article.title} — Aura & Iron`;
+    document.title = article.seoTitle || `${article.title} — Aura & Iron`;
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -182,7 +182,7 @@ export default function App() {
     setSearchQuery('');
     setIsCalculatorOpen(false);
     setIsSavedDrawerOpen(false);
-    document.title = `Aura & Iron — Health & Fitness Journal`;
+    document.title = `Fitness and Health Tips: Evidence-Based Longevity Journal`;
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 

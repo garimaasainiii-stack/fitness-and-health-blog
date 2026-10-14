@@ -17,6 +17,7 @@ export const ARTICLES: Article[] = [
     id: 'zone-2-cardio',
     slug: 'zone-2-cardio',
     title: 'Zone 2 Cardiovascular Training: Building the Aerobic Engine for Longevity',
+    seoTitle: 'Zone 2 Cardio Training: Meaning, Physiology & Longevity',
     subtitle: 'Why low-intensity steady-state endurance remains the foundation of metabolic flexibility, mitochondrial density, and cellular clearance.',
     category: 'Cardio & Endurance',
     author: {
@@ -99,6 +100,7 @@ export const ARTICLES: Article[] = [
     id: 'hypertrophy-science',
     slug: 'hypertrophy-science',
     title: 'The Science of Hypertrophy: Progressive Overload & Mechanical Tension',
+    seoTitle: 'Muscle Hypertrophy Science: Hypertrophy & Protein Guide',
     subtitle: 'Deconstructing mechanotransduction, effective reps, and the myth of muscle confusion.',
     category: 'Strength & Training',
     author: {
@@ -173,6 +175,7 @@ export const ARTICLES: Article[] = [
     id: 'sleep-architecture',
     slug: 'sleep-architecture',
     title: 'Circadian Biology & Sleep Architecture: Optimizing Deep & REM Cycles',
+    seoTitle: 'Circadian Rhythm in Sleep: Optimizing Deep Rest & Cycles',
     subtitle: 'The molecular gears of suprachiasmatic regulation, core body temperature shifts, and glymphatic clearance.',
     category: 'Recovery & Sleep',
     author: {
@@ -240,6 +243,7 @@ export const ARTICLES: Article[] = [
     id: 'protein-pacing',
     slug: 'protein-pacing',
     title: 'Protein Pacing & Leucine Thresholds: Precision Fueling for Muscle Preservation',
+    seoTitle: 'Recommended Protein Intake for Muscle Growth & Calculator',
     subtitle: 'Navigating muscle protein synthesis, essential amino acid kinetics, and optimal per-meal protein distribution.',
     category: 'Nutrition & Fuel',
     author: {
@@ -307,6 +311,7 @@ export const ARTICLES: Article[] = [
     id: 'cold-plunge-protocol',
     slug: 'cold-plunge-protocol',
     title: 'The Cold Plunge & Thermal Contrast Protocol: Hormesis, Dopamine, and Immune Resilience',
+    seoTitle: 'Cold Plunge Benefits: Hormesis, Tub Protocols & Recovery',
     subtitle: 'The physiological trade-offs between acute inflammation suppression, brown adipose tissue thermogenesis, and catecholamine release.',
     category: 'Recovery & Sleep',
     author: {
@@ -374,6 +379,7 @@ export const ARTICLES: Article[] = [
     id: 'gut-microbiome',
     slug: 'gut-microbiome',
     title: 'Microbiome Synergy: How Gut Biodiversity Dictates Metabolic Health and Mood',
+    seoTitle: 'Gut Microbiome Health: Biodiversity & Gut-Brain Science',
     subtitle: 'Short-chain fatty acids, the vagus nerve superhighway, and prebiotic dietary diversity.',
     category: 'Nutrition & Fuel',
     author: {
@@ -440,6 +446,7 @@ export const ARTICLES: Article[] = [
     id: 'functional-mobility',
     slug: 'functional-mobility',
     title: 'Functional Mobility over Passive Stretching: Building Joint Longevity & Hip Extension',
+    seoTitle: 'Hip Mobility Exercises: Joint Health & Functional Motion',
     subtitle: 'Why static flexibility without end-range motor control leaves joints vulnerable, and how FRC principles transform tissue resilience.',
     category: 'Strength & Training',
     author: {
@@ -507,6 +514,7 @@ export const ARTICLES: Article[] = [
     id: 'cortisol-stress-relief',
     slug: 'cortisol-stress-relief',
     title: 'Managing Cortisol & Sympathetic Tone: The Science of Deliberate Downregulation',
+    seoTitle: 'How to Reduce Cortisol Naturally: Downregulate Stress',
     subtitle: 'Breaking the chronic fight-or-flight loop through physiological sighs, HRV biofeedback, and vagal stimulation.',
     category: 'Mental Resilience',
     author: {
@@ -573,6 +581,7 @@ export const ARTICLES: Article[] = [
     id: 'intermittent-fasting',
     slug: 'intermittent-fasting',
     title: 'Intermittent Fasting & Autophagy: Debunking Myths & Structuring Feeding Windows',
+    seoTitle: 'Intermittent Fasting Benefits: Fasting & Weight Loss',
     subtitle: 'Separating clinical metabolic reality from internet hype: energy balance, insulin dynamics, and cellular recycling.',
     category: 'Longevity & Science',
     author: {
@@ -639,6 +648,7 @@ export const ARTICLES: Article[] = [
     id: 'vo2-max',
     slug: 'vo2-max',
     title: 'VO2 Max as a Clinical Vital Sign: Why Cardiorespiratory Fitness Predicts All-Cause Mortality',
+    seoTitle: 'VO2 Max Check: Cardiorespiratory Fitness & Healthspan',
     subtitle: 'The epidemiological data on maximum aerobic capacity, cardiorespiratory resilience, and age-related functional decline.',
     category: 'Longevity & Science',
     author: {
