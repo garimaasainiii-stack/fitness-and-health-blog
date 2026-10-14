@@ -374,8 +374,8 @@ export default function App() {
                   </h2>
                   <p className="text-xs sm:text-sm text-stone-500 mt-1">
                     {selectedCategory === 'All Articles'
-                      ? 'All 10 investigations covering cellular bioenergetics, progressive resistance, and restorative biology.'
-                      : `Curated investigations under the ${selectedCategory} department.`}
+                      ? 'Exploring every essential fitness and health topic with scientific rigor, practical fit and healthy tips, and evidence-based fitness and health tips for lifelong performance.'
+                      : `Curated investigations and fit and healthy tips under the ${selectedCategory} department.`}
                   </p>
                 </div>
               </div>
