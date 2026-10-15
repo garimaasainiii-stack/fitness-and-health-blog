@@ -16,6 +16,7 @@ import { SavedArticlesDrawer } from './components/SavedArticlesDrawer';
 import { NewsletterSection } from './components/NewsletterSection';
 import { Footer } from './components/Footer';
 import { Search, Sparkles, SlidersHorizontal, Calculator } from 'lucide-react';
+import heroImage from './assets/images/hero_vital_journal_1791175996139.webp';
 
 const CATEGORY_SLUG_MAP: Record<string, string> = {
   strength: 'Strength & Training',
@@ -35,17 +36,132 @@ const CATEGORY_TO_SLUG_MAP: Record<string, string> = {
   'Mental Resilience': 'resilience',
 };
 
+const HOMEPAGE_TITLE = 'Fitness and Health Tips: Evidence-Based Longevity Journal';
 const HOMEPAGE_META_DESCRIPTION =
   'Explore science-backed fitness and health tips on training, cellular recovery, and longevity. Discover practical protocols designed for sustainable wellness.';
 
-const updateMetaDescription = (description: string) => {
-  const meta = document.querySelector('meta[name="description"]');
-  if (meta) {
-    meta.setAttribute('content', description);
+interface PageMetadataOptions {
+  title: string;
+  description: string;
+  canonicalPath: string;
+  imageUrl?: string;
+  type?: 'website' | 'article';
+}
+
+const updatePageMetadata = ({
+  title,
+  description,
+  canonicalPath,
+  imageUrl,
+  type = 'website',
+}: PageMetadataOptions) => {
+  // 1. Document Title
+  document.title = title;
+
+  // 2. Meta Description
+  let metaDesc = document.querySelector('meta[name="description"]');
+  if (!metaDesc) {
+    metaDesc = document.createElement('meta');
+    metaDesc.setAttribute('name', 'description');
+    document.head.appendChild(metaDesc);
   }
-  const ogDesc = document.querySelector('meta[property="og:description"]');
-  if (ogDesc) {
-    ogDesc.setAttribute('content', description);
+  metaDesc.setAttribute('content', description);
+
+  // 3. Canonical Link (Dynamic Absolute URL Resolution)
+  const cleanPath = canonicalPath.startsWith('/') ? canonicalPath : `/${canonicalPath}`;
+  const fullUrl = `${window.location.origin}${cleanPath === '//' ? '/' : cleanPath}`;
+  let canonicalLink = document.querySelector('link[rel="canonical"]');
+  if (!canonicalLink) {
+    canonicalLink = document.createElement('link');
+    canonicalLink.setAttribute('rel', 'canonical');
+    document.head.appendChild(canonicalLink);
+  }
+  canonicalLink.setAttribute('href', fullUrl);
+
+  // 4. Open Graph: Title
+  let ogTitle = document.querySelector('meta[property="og:title"]');
+  if (!ogTitle) {
+    ogTitle = document.createElement('meta');
+    ogTitle.setAttribute('property', 'og:title');
+    document.head.appendChild(ogTitle);
+  }
+  ogTitle.setAttribute('content', title);
+
+  // 5. Open Graph: Description
+  let ogDesc = document.querySelector('meta[property="og:description"]');
+  if (!ogDesc) {
+    ogDesc = document.createElement('meta');
+    ogDesc.setAttribute('property', 'og:description');
+    document.head.appendChild(ogDesc);
+  }
+  ogDesc.setAttribute('content', description);
+
+  // 6. Open Graph: URL
+  let ogUrl = document.querySelector('meta[property="og:url"]');
+  if (!ogUrl) {
+    ogUrl = document.createElement('meta');
+    ogUrl.setAttribute('property', 'og:url');
+    document.head.appendChild(ogUrl);
+  }
+  ogUrl.setAttribute('content', fullUrl);
+
+  // 7. Open Graph: Type
+  let ogType = document.querySelector('meta[property="og:type"]');
+  if (!ogType) {
+    ogType = document.createElement('meta');
+    ogType.setAttribute('property', 'og:type');
+    document.head.appendChild(ogType);
+  }
+  ogType.setAttribute('content', type);
+
+  // 8. Open Graph & Twitter: Image
+  const resolvedImg = imageUrl || heroImage;
+  if (resolvedImg) {
+    const fullImageUrl = resolvedImg.startsWith('http')
+      ? resolvedImg
+      : `${window.location.origin}${resolvedImg.startsWith('/') ? '' : '/'}${resolvedImg}`;
+
+    let ogImage = document.querySelector('meta[property="og:image"]');
+    if (!ogImage) {
+      ogImage = document.createElement('meta');
+      ogImage.setAttribute('property', 'og:image');
+      document.head.appendChild(ogImage);
+    }
+    ogImage.setAttribute('content', fullImageUrl);
+
+    let twitterImage = document.querySelector('meta[name="twitter:image"]');
+    if (!twitterImage) {
+      twitterImage = document.createElement('meta');
+      twitterImage.setAttribute('name', 'twitter:image');
+      document.head.appendChild(twitterImage);
+    }
+    twitterImage.setAttribute('content', fullImageUrl);
+  }
+
+  // 9. Twitter Card: Title & Description
+  let twTitle = document.querySelector('meta[name="twitter:title"]');
+  if (!twTitle) {
+    twTitle = document.createElement('meta');
+    twTitle.setAttribute('name', 'twitter:title');
+    document.head.appendChild(twTitle);
+  }
+  twTitle.setAttribute('content', title);
+
+  let twDesc = document.querySelector('meta[name="twitter:description"]');
+  if (!twDesc) {
+    twDesc = document.createElement('meta');
+    twDesc.setAttribute('name', 'twitter:description');
+    document.head.appendChild(twDesc);
+  }
+  twDesc.setAttribute('content', description);
+
+  // 10. Ensure Public Indexing Robots Directive is maintained
+  let robotsMeta = document.querySelector('meta[name="robots"]');
+  if (!robotsMeta) {
+    robotsMeta = document.createElement('meta');
+    robotsMeta.setAttribute('name', 'robots');
+    robotsMeta.setAttribute('content', 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1');
+    document.head.appendChild(robotsMeta);
   }
 };
 
@@ -107,32 +223,58 @@ export default function App() {
       setActiveArticleId(route.article.id);
       setIsCalculatorOpen(false);
       setIsSavedDrawerOpen(false);
-      document.title = route.article.seoTitle || `${route.article.title} — Aura & Iron`;
-      updateMetaDescription(route.article.metaDescription || HOMEPAGE_META_DESCRIPTION);
+      updatePageMetadata({
+        title: route.article.seoTitle || `${route.article.title} — Aura & Iron`,
+        description: route.article.metaDescription || HOMEPAGE_META_DESCRIPTION,
+        canonicalPath: `/${route.article.slug}`,
+        imageUrl: route.article.coverImage,
+        type: 'article',
+      });
     } else if (route.type === 'category' && route.category) {
       setActiveArticleId(null);
       setSelectedCategory(route.category);
       setIsCalculatorOpen(false);
       setIsSavedDrawerOpen(false);
-      document.title = `${route.category} — Aura & Iron`;
-      updateMetaDescription(HOMEPAGE_META_DESCRIPTION);
+      const catSlug = CATEGORY_TO_SLUG_MAP[route.category] || '';
+      updatePageMetadata({
+        title: `${route.category} — Aura & Iron`,
+        description: HOMEPAGE_META_DESCRIPTION,
+        canonicalPath: catSlug ? `/${catSlug}` : '/',
+        imageUrl: heroImage,
+        type: 'website',
+      });
     } else if (route.type === 'calculators') {
       setIsCalculatorOpen(true);
       setIsSavedDrawerOpen(false);
-      document.title = `Bioenergetics & Protein Calculator — Aura & Iron`;
-      updateMetaDescription(HOMEPAGE_META_DESCRIPTION);
+      updatePageMetadata({
+        title: `Bioenergetics & Protein Calculator — Aura & Iron`,
+        description: HOMEPAGE_META_DESCRIPTION,
+        canonicalPath: '/calculators',
+        imageUrl: heroImage,
+        type: 'website',
+      });
     } else if (route.type === 'saved') {
       setIsSavedDrawerOpen(true);
       setIsCalculatorOpen(false);
-      document.title = `Saved Investigations Archive — Aura & Iron`;
-      updateMetaDescription(HOMEPAGE_META_DESCRIPTION);
+      updatePageMetadata({
+        title: `Saved Investigations Archive — Aura & Iron`,
+        description: HOMEPAGE_META_DESCRIPTION,
+        canonicalPath: '/saved',
+        imageUrl: heroImage,
+        type: 'website',
+      });
     } else {
       setActiveArticleId(null);
       setSelectedCategory('All Articles');
       setIsCalculatorOpen(false);
       setIsSavedDrawerOpen(false);
-      document.title = `Fitness and Health Tips: Evidence-Based Longevity Journal`;
-      updateMetaDescription(HOMEPAGE_META_DESCRIPTION);
+      updatePageMetadata({
+        title: HOMEPAGE_TITLE,
+        description: HOMEPAGE_META_DESCRIPTION,
+        canonicalPath: '/',
+        imageUrl: heroImage,
+        type: 'website',
+      });
     }
   }, [resolveRoute]);
 
@@ -188,8 +330,13 @@ export default function App() {
     setActiveArticleId(article.id);
     setIsCalculatorOpen(false);
     setIsSavedDrawerOpen(false);
-    document.title = article.seoTitle || `${article.title} — Aura & Iron`;
-    updateMetaDescription(article.metaDescription || HOMEPAGE_META_DESCRIPTION);
+    updatePageMetadata({
+      title: article.seoTitle || `${article.title} — Aura & Iron`,
+      description: article.metaDescription || HOMEPAGE_META_DESCRIPTION,
+      canonicalPath: `/${article.slug}`,
+      imageUrl: article.coverImage,
+      type: 'article',
+    });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -202,8 +349,13 @@ export default function App() {
     setSearchQuery('');
     setIsCalculatorOpen(false);
     setIsSavedDrawerOpen(false);
-    document.title = `Fitness and Health Tips: Evidence-Based Longevity Journal`;
-    updateMetaDescription(HOMEPAGE_META_DESCRIPTION);
+    updatePageMetadata({
+      title: HOMEPAGE_TITLE,
+      description: HOMEPAGE_META_DESCRIPTION,
+      canonicalPath: '/',
+      imageUrl: heroImage,
+      type: 'website',
+    });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -217,8 +369,13 @@ export default function App() {
     setSelectedCategory(category);
     setIsCalculatorOpen(false);
     setIsSavedDrawerOpen(false);
-    document.title = `${category} — Aura & Iron`;
-    updateMetaDescription(HOMEPAGE_META_DESCRIPTION);
+    updatePageMetadata({
+      title: `${category} — Aura & Iron`,
+      description: HOMEPAGE_META_DESCRIPTION,
+      canonicalPath: slug ? `/${slug}` : '/',
+      imageUrl: heroImage,
+      type: 'website',
+    });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -228,8 +385,13 @@ export default function App() {
     }
     setIsCalculatorOpen(true);
     setIsSavedDrawerOpen(false);
-    document.title = `Bioenergetics & Protein Calculator — Aura & Iron`;
-    updateMetaDescription(HOMEPAGE_META_DESCRIPTION);
+    updatePageMetadata({
+      title: `Bioenergetics & Protein Calculator — Aura & Iron`,
+      description: HOMEPAGE_META_DESCRIPTION,
+      canonicalPath: '/calculators',
+      imageUrl: heroImage,
+      type: 'website',
+    });
   };
 
   const handleCloseCalculator = () => {
@@ -244,6 +406,7 @@ export default function App() {
       } else {
         window.history.pushState({}, '', '/');
       }
+      applyCurrentRoute();
     }
   };
 
@@ -253,7 +416,13 @@ export default function App() {
     }
     setIsSavedDrawerOpen(true);
     setIsCalculatorOpen(false);
-    document.title = `Saved Investigations Archive — Aura & Iron`;
+    updatePageMetadata({
+      title: `Saved Investigations Archive — Aura & Iron`,
+      description: HOMEPAGE_META_DESCRIPTION,
+      canonicalPath: '/saved',
+      imageUrl: heroImage,
+      type: 'website',
+    });
   };
 
   const handleCloseSaved = () => {
@@ -268,6 +437,7 @@ export default function App() {
       } else {
         window.history.pushState({}, '', '/');
       }
+      applyCurrentRoute();
     }
   };
 
