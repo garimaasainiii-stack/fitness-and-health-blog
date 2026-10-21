@@ -474,7 +474,7 @@ export const ARTICLES: Article[] = [
   "author": {
     "name": "Dr. Maya Patel",
     "role": "Gastroenterologist & Microbiome Researcher",
-    "avatar": "https://images.unsplash.com/photo-1594824813566-7875a35740e1?auto=format&fit=crop&w=240&q=80",
+    "avatar": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=240&q=80",
     "credentials": "M.D., Board Certified in Internal Medicine & Gastroenterology",
     "bio": "Leading clinical trials on dietary microbiota accessible carbohydrates (MACs) and systemic inflammatory modulation."
   },
@@ -650,7 +650,7 @@ export const ARTICLES: Article[] = [
   "author": {
     "name": "Dr. Maya Patel",
     "role": "Integrative Neurophysiologist & Stress Specialist",
-    "avatar": "https://images.unsplash.com/photo-1594824813566-7875a35740e1?auto=format&fit=crop&w=240&q=80",
+    "avatar": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=240&q=80",
     "credentials": "M.D., Fellowship in Mind-Body Neurobiology",
     "bio": "Investigating autonomic nervous system regulation and stress resilience in high-demand environments."
   },

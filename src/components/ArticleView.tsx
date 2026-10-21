@@ -252,6 +252,9 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
             <img
               src={article.author.avatar}
               alt={`Portrait of ${article.author.name}`}
+              width={48}
+              height={48}
+              loading="lazy"
               className="w-12 h-12 rounded-full object-cover border border-stone-300"
               onError={(e) => {
                 (e.target as HTMLElement).style.display = 'none';
@@ -292,6 +295,9 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
               src={article.coverImage}
               alt={article.coverImageAlt || article.title}
               referrerPolicy="no-referrer"
+              width={1200}
+              height={896}
+              fetchPriority="high"
               className="w-full h-full object-cover"
               onError={(e) => {
                 (e.target as HTMLElement).style.display = 'none';
@@ -611,6 +617,9 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
               <img
                 src={article.author.avatar}
                 alt={`Portrait of ${article.author.name}`}
+                width={56}
+                height={56}
+                loading="lazy"
                 className="w-14 h-14 rounded-full object-cover border border-stone-300 shrink-0"
                 onError={(e) => {
                   (e.target as HTMLElement).style.display = 'none';
@@ -669,6 +678,8 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
                       alt={rel.coverImageAlt || rel.title}
                       referrerPolicy="no-referrer"
                       loading="lazy"
+                      width={600}
+                      height={375}
                       className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-300"
                       onError={(e) => {
                         (e.target as HTMLElement).style.display = 'none';

@@ -6,11 +6,14 @@
     <title>Fitness and Health Tips: Evidence-Based Longevity Journal</title>
     <meta name="description" content="Explore science-backed fitness and health tips on training, cellular recovery, and longevity. Discover practical protocols designed for sustainable wellness." />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-    <link rel="canonical" href="https://ais-pre-7hs535cv3v5pxqsurturyj-827494075893.asia-east1.run.app/" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/favicon.png" />
+    <link rel="canonical" href="https://fitness-and-health-blog-ten.vercel.app/" />
     <meta property="og:title" content="Fitness and Health Tips: Evidence-Based Longevity Journal" />
     <meta property="og:description" content="Explore science-backed fitness and health tips on training, cellular recovery, and longevity. Discover practical protocols designed for sustainable wellness." />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="/" />
+    <meta property="og:url" content="https://fitness-and-health-blog-ten.vercel.app/" />
     <meta property="og:site_name" content="Aura & Iron" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Fitness and Health Tips: Evidence-Based Longevity Journal" />
@@ -23,6 +26,32 @@
           var target = h ? '/' + h : (window.location.pathname || '/');
           window.history.replaceState(null, '', target);
         }
+        try {
+          var defaultOrigin = 'https://fitness-and-health-blog-ten.vercel.app';
+          var origin = defaultOrigin;
+          if (window.location && window.location.origin && window.location.origin.indexOf('http') === 0) {
+            var currOrigin = window.location.origin;
+            if (
+              currOrigin.indexOf('run.app') === -1 &&
+              currOrigin.indexOf('localhost') === -1 &&
+              currOrigin.indexOf('127.0.0.1') === -1 &&
+              currOrigin.indexOf('webcontainer') === -1
+            ) {
+              origin = currOrigin;
+            }
+          }
+          var rawPath = window.location.pathname || '/';
+          var cleanPath = rawPath.replace(/^\/+|\/+$/g, '');
+          var canonicalPath = cleanPath
+            ? '/' + (cleanPath.indexOf('article/') === 0 ? cleanPath.replace('article/', '') : cleanPath)
+            : '/';
+          var fullCanonical = origin + canonicalPath;
+
+          var c = document.querySelector('link[rel="canonical"]');
+          if (c) c.setAttribute('href', fullCanonical);
+          var og = document.querySelector('meta[property="og:url"]');
+          if (og) og.setAttribute('content', fullCanonical);
+        } catch (e) {}
       })();
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">

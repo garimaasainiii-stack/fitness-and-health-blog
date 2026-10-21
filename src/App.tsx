@@ -15,6 +15,7 @@ import { FitnessCalculatorModal } from './components/FitnessCalculatorModal';
 import { SavedArticlesDrawer } from './components/SavedArticlesDrawer';
 import { NewsletterSection } from './components/NewsletterSection';
 import { Footer } from './components/Footer';
+import { NotFoundView } from './components/NotFoundView';
 import { Search, Sparkles, SlidersHorizontal, Calculator } from 'lucide-react';
 import heroImage from './assets/images/hero_vital_journal_1791175996139.webp';
 
@@ -46,7 +47,39 @@ interface PageMetadataOptions {
   canonicalPath: string;
   imageUrl?: string;
   type?: 'website' | 'article';
+  robots?: string;
 }
+
+export const CANONICAL_SITE_ORIGIN = 'https://fitness-and-health-blog-ten.vercel.app';
+
+/**
+ * Resolves a reliable absolute canonical URL for any route path.
+ * Canonical URLs must always point to the production canonical domain
+ * (https://fitness-and-health-blog-ten.vercel.app) to prevent SEO duplicate content
+ * and broken link errors caused by ephemeral preview environments (*.run.app or localhost).
+ */
+export const getCanonicalUrl = (canonicalPath: string): string => {
+  const cleanPath = canonicalPath.startsWith('/') ? canonicalPath : `/${canonicalPath}`;
+  const normalizedPath = cleanPath === '//' ? '/' : cleanPath;
+
+  if (typeof window !== 'undefined' && window.location?.origin) {
+    const origin = window.location.origin;
+    const isInternalPreviewOrDev =
+      origin.includes('run.app') ||
+      origin.includes('localhost') ||
+      origin.includes('127.0.0.1') ||
+      origin.includes('webcontainer') ||
+      origin.includes('ai.google') ||
+      origin.includes('google.com') ||
+      !origin.startsWith('http');
+
+    if (!isInternalPreviewOrDev) {
+      return `${origin}${normalizedPath}`;
+    }
+  }
+
+  return `${CANONICAL_SITE_ORIGIN}${normalizedPath}`;
+};
 
 const updatePageMetadata = ({
   title,
@@ -54,6 +87,7 @@ const updatePageMetadata = ({
   canonicalPath,
   imageUrl,
   type = 'website',
+  robots,
 }: PageMetadataOptions) => {
   // 1. Document Title
   document.title = title;
@@ -67,16 +101,15 @@ const updatePageMetadata = ({
   }
   metaDesc.setAttribute('content', description);
 
-  // 3. Canonical Link (Dynamic Absolute URL Resolution)
-  const cleanPath = canonicalPath.startsWith('/') ? canonicalPath : `/${canonicalPath}`;
-  const fullUrl = `${window.location.origin}${cleanPath === '//' ? '/' : cleanPath}`;
+  // 3. Canonical Link (Dynamic Absolute Canonical URL Resolution)
+  const fullCanonicalUrl = getCanonicalUrl(canonicalPath);
   let canonicalLink = document.querySelector('link[rel="canonical"]');
   if (!canonicalLink) {
     canonicalLink = document.createElement('link');
     canonicalLink.setAttribute('rel', 'canonical');
     document.head.appendChild(canonicalLink);
   }
-  canonicalLink.setAttribute('href', fullUrl);
+  canonicalLink.setAttribute('href', fullCanonicalUrl);
 
   // 4. Open Graph: Title
   let ogTitle = document.querySelector('meta[property="og:title"]');
@@ -103,7 +136,7 @@ const updatePageMetadata = ({
     ogUrl.setAttribute('property', 'og:url');
     document.head.appendChild(ogUrl);
   }
-  ogUrl.setAttribute('content', fullUrl);
+  ogUrl.setAttribute('content', fullCanonicalUrl);
 
   // 7. Open Graph: Type
   let ogType = document.querySelector('meta[property="og:type"]');
@@ -117,9 +150,19 @@ const updatePageMetadata = ({
   // 8. Open Graph & Twitter: Image
   const resolvedImg = imageUrl || heroImage;
   if (resolvedImg) {
+    const origin =
+      typeof window !== 'undefined' &&
+      window.location?.origin &&
+      !window.location.origin.includes('run.app') &&
+      !window.location.origin.includes('localhost') &&
+      !window.location.origin.includes('127.0.0.1') &&
+      !window.location.origin.includes('webcontainer') &&
+      window.location.origin.startsWith('http')
+        ? window.location.origin
+        : CANONICAL_SITE_ORIGIN;
     const fullImageUrl = resolvedImg.startsWith('http')
       ? resolvedImg
-      : `${window.location.origin}${resolvedImg.startsWith('/') ? '' : '/'}${resolvedImg}`;
+      : `${origin}${resolvedImg.startsWith('/') ? '' : '/'}${resolvedImg}`;
 
     let ogImage = document.querySelector('meta[property="og:image"]');
     if (!ogImage) {
@@ -156,19 +199,56 @@ const updatePageMetadata = ({
   twDesc.setAttribute('content', description);
 
   // 10. Ensure Public Indexing Robots Directive is maintained
+  const robotsDirective =
+    robots || 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1';
   let robotsMeta = document.querySelector('meta[name="robots"]');
   if (!robotsMeta) {
     robotsMeta = document.createElement('meta');
     robotsMeta.setAttribute('name', 'robots');
-    robotsMeta.setAttribute('content', 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1');
     document.head.appendChild(robotsMeta);
   }
+  robotsMeta.setAttribute('content', robotsDirective);
+
+  // 11. Schema.org JSON-LD Structured Data with canonical production URL
+  let ldJsonScript = document.querySelector('script[type="application/ld+json"]');
+  if (!ldJsonScript) {
+    ldJsonScript = document.createElement('script');
+    ldJsonScript.setAttribute('type', 'application/ld+json');
+    document.head.appendChild(ldJsonScript);
+  }
+  const structuredData =
+    type === 'article'
+      ? {
+          '@context': 'https://schema.org',
+          '@type': 'Article',
+          headline: title,
+          description: description,
+          url: fullCanonicalUrl,
+          mainEntityOfPage: {
+            '@type': 'WebPage',
+            '@id': fullCanonicalUrl,
+          },
+          publisher: {
+            '@type': 'Organization',
+            name: 'Aura & Iron — Health & Fitness Journal',
+            url: CANONICAL_SITE_ORIGIN,
+          },
+        }
+      : {
+          '@context': 'https://schema.org',
+          '@type': 'WebSite',
+          name: 'Aura & Iron — Health & Fitness Journal',
+          url: fullCanonicalUrl,
+          description: description,
+        };
+  ldJsonScript.textContent = JSON.stringify(structuredData);
 };
 
 export default function App() {
   const [activeArticleId, setActiveArticleId] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('All Articles');
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [isNotFound, setIsNotFound] = useState(false);
   const [savedArticleIds, setSavedArticleIds] = useState<string[]>(() => {
     try {
       const stored = localStorage.getItem('aura_iron_bookmarks');
@@ -193,6 +273,12 @@ export default function App() {
   const resolveRoute = useCallback((path: string) => {
     const clean = path.split('?')[0].split('#')[0].replace(/^\/+|\/+$/g, '').toLowerCase();
 
+    // 301 Permanent Redirect handling: /old-home -> /
+    if (clean === 'old-home') {
+      window.history.replaceState({}, '', '/');
+      return { type: 'home' as const };
+    }
+
     if (!clean) {
       return { type: 'home' as const };
     }
@@ -201,6 +287,9 @@ export default function App() {
     }
     if (clean === 'saved') {
       return { type: 'saved' as const };
+    }
+    if (clean === '404') {
+      return { type: 'not_found' as const };
     }
     if (CATEGORY_SLUG_MAP[clean]) {
       return { type: 'category' as const, category: CATEGORY_SLUG_MAP[clean] };
@@ -212,14 +301,29 @@ export default function App() {
       return { type: 'article' as const, article: found };
     }
 
-    return { type: 'home' as const };
+    return { type: 'not_found' as const };
   }, []);
 
   // Sync state from current URL path
   const applyCurrentRoute = useCallback(() => {
     const route = resolveRoute(window.location.pathname);
 
-    if (route.type === 'article' && route.article) {
+    if (route.type === 'not_found') {
+      setIsNotFound(true);
+      setActiveArticleId(null);
+      setIsCalculatorOpen(false);
+      setIsSavedDrawerOpen(false);
+      updatePageMetadata({
+        title: 'Page Not Found (404) — Aura & Iron',
+        description:
+          'The requested investigation could not be located in our publication archives. Explore our latest evidence-based dispatches, categories, and bioenergetics calculators.',
+        canonicalPath: '/404',
+        imageUrl: heroImage,
+        type: 'website',
+        robots: 'noindex, follow',
+      });
+    } else if (route.type === 'article' && route.article) {
+      setIsNotFound(false);
       setActiveArticleId(route.article.id);
       setIsCalculatorOpen(false);
       setIsSavedDrawerOpen(false);
@@ -231,6 +335,7 @@ export default function App() {
         type: 'article',
       });
     } else if (route.type === 'category' && route.category) {
+      setIsNotFound(false);
       setActiveArticleId(null);
       setSelectedCategory(route.category);
       setIsCalculatorOpen(false);
@@ -244,6 +349,7 @@ export default function App() {
         type: 'website',
       });
     } else if (route.type === 'calculators') {
+      setIsNotFound(false);
       setIsCalculatorOpen(true);
       setIsSavedDrawerOpen(false);
       updatePageMetadata({
@@ -254,6 +360,7 @@ export default function App() {
         type: 'website',
       });
     } else if (route.type === 'saved') {
+      setIsNotFound(false);
       setIsSavedDrawerOpen(true);
       setIsCalculatorOpen(false);
       updatePageMetadata({
@@ -264,6 +371,7 @@ export default function App() {
         type: 'website',
       });
     } else {
+      setIsNotFound(false);
       setActiveArticleId(null);
       setSelectedCategory('All Articles');
       setIsCalculatorOpen(false);
@@ -327,6 +435,7 @@ export default function App() {
     if (window.location.pathname !== newPath) {
       window.history.pushState({}, '', newPath);
     }
+    setIsNotFound(false);
     setActiveArticleId(article.id);
     setIsCalculatorOpen(false);
     setIsSavedDrawerOpen(false);
@@ -344,6 +453,7 @@ export default function App() {
     if (window.location.pathname !== '/') {
       window.history.pushState({}, '', '/');
     }
+    setIsNotFound(false);
     setActiveArticleId(null);
     setSelectedCategory('All Articles');
     setSearchQuery('');
@@ -365,6 +475,7 @@ export default function App() {
     if (window.location.pathname !== newPath) {
       window.history.pushState({}, '', newPath);
     }
+    setIsNotFound(false);
     setActiveArticleId(null);
     setSelectedCategory(category);
     setIsCalculatorOpen(false);
@@ -383,6 +494,7 @@ export default function App() {
     if (window.location.pathname !== '/calculators') {
       window.history.pushState({}, '', '/calculators');
     }
+    setIsNotFound(false);
     setIsCalculatorOpen(true);
     setIsSavedDrawerOpen(false);
     updatePageMetadata({
@@ -414,6 +526,7 @@ export default function App() {
     if (window.location.pathname !== '/saved') {
       window.history.pushState({}, '', '/saved');
     }
+    setIsNotFound(false);
     setIsSavedDrawerOpen(true);
     setIsCalculatorOpen(false);
     updatePageMetadata({
@@ -512,9 +625,17 @@ export default function App() {
         }}
       />
 
-      {/* Main Body: Article View OR Homepage View */}
+      {/* Main Body: 404 View OR Article View OR Homepage View */}
       <main className="flex-1">
-        {activeArticle ? (
+        {isNotFound ? (
+          <NotFoundView
+            onNavigateHome={handleNavigateHome}
+            onSelectCategory={handleSelectCategory}
+            onOpenCalculator={handleOpenCalculator}
+            onReadArticle={handleSelectArticle}
+            popularArticles={ARTICLES}
+          />
+        ) : activeArticle ? (
           <div className="pt-6">
             <ArticleView
               article={activeArticle}

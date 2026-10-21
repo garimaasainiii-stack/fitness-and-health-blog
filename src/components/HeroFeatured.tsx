@@ -33,6 +33,9 @@ export const HeroFeatured: React.FC<HeroFeaturedProps> = ({
               src={article.coverImage}
               alt={article.coverImageAlt || article.title}
               referrerPolicy="no-referrer"
+              width={1376}
+              height={768}
+              fetchPriority="high"
               className="w-full h-full object-cover object-center group-hover:scale-102 transition-transform duration-500 ease-out"
               onError={(e) => {
                 // Zero broken image fallback: replace with fallback style container
@@ -94,6 +97,9 @@ export const HeroFeatured: React.FC<HeroFeaturedProps> = ({
               <img
                 src={article.author.avatar}
                 alt={`Portrait of ${article.author.name}, ${article.author.role}`}
+                width={40}
+                height={40}
+                loading="lazy"
                 className="w-10 h-10 rounded-full object-cover border border-stone-300"
                 onError={(e) => {
                   (e.target as HTMLElement).style.display = 'none';

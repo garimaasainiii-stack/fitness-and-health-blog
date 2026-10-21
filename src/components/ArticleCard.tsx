@@ -35,6 +35,8 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
             alt={article.coverImageAlt || article.title}
             referrerPolicy="no-referrer"
             loading="lazy"
+            width={1200}
+            height={896}
             className="w-full h-full object-cover object-center group-hover:scale-103 transition-transform duration-500 ease-out"
             onError={(e) => {
               (e.target as HTMLElement).style.display = 'none';
@@ -106,6 +108,9 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
           <img
             src={article.author.avatar}
             alt={`Portrait of ${article.author.name}`}
+            width={28}
+            height={28}
+            loading="lazy"
             className="w-7 h-7 rounded-full object-cover border border-stone-200"
             onError={(e) => {
               (e.target as HTMLElement).style.display = 'none';
