@@ -18,6 +18,7 @@ import { Footer } from './components/Footer';
 import { NotFoundView } from './components/NotFoundView';
 import { Search, Sparkles, SlidersHorizontal, Calculator } from 'lucide-react';
 import heroImage from './assets/images/hero_vital_journal_1791175996139.webp';
+import { generateSchemaGraph } from './utils/schemaGenerator';
 
 const CATEGORY_SLUG_MAP: Record<string, string> = {
   strength: 'Strength & Training',
@@ -48,6 +49,10 @@ interface PageMetadataOptions {
   imageUrl?: string;
   type?: 'website' | 'article';
   robots?: string;
+  pageType?: 'home' | 'article' | 'category' | 'calculators' | 'saved' | 'not_found';
+  article?: Article | null;
+  categoryName?: string;
+  categorySlug?: string;
 }
 
 export const CANONICAL_SITE_ORIGIN = 'https://fitness-and-health-blog-ten.vercel.app';
@@ -88,6 +93,10 @@ const updatePageMetadata = ({
   imageUrl,
   type = 'website',
   robots,
+  pageType = 'home',
+  article = null,
+  categoryName,
+  categorySlug,
 }: PageMetadataOptions) => {
   // 1. Document Title
   document.title = title;
@@ -209,38 +218,24 @@ const updatePageMetadata = ({
   }
   robotsMeta.setAttribute('content', robotsDirective);
 
-  // 11. Schema.org JSON-LD Structured Data with canonical production URL
+  // 11. Comprehensive Schema.org JSON-LD Structured Data with all website labels
   let ldJsonScript = document.querySelector('script[type="application/ld+json"]');
   if (!ldJsonScript) {
     ldJsonScript = document.createElement('script');
     ldJsonScript.setAttribute('type', 'application/ld+json');
     document.head.appendChild(ldJsonScript);
   }
-  const structuredData =
-    type === 'article'
-      ? {
-          '@context': 'https://schema.org',
-          '@type': 'Article',
-          headline: title,
-          description: description,
-          url: fullCanonicalUrl,
-          mainEntityOfPage: {
-            '@type': 'WebPage',
-            '@id': fullCanonicalUrl,
-          },
-          publisher: {
-            '@type': 'Organization',
-            name: 'Aura & Iron — Health & Fitness Journal',
-            url: CANONICAL_SITE_ORIGIN,
-          },
-        }
-      : {
-          '@context': 'https://schema.org',
-          '@type': 'WebSite',
-          name: 'Aura & Iron — Health & Fitness Journal',
-          url: fullCanonicalUrl,
-          description: description,
-        };
+  const structuredData = generateSchemaGraph({
+    pageType,
+    canonicalUrl: fullCanonicalUrl,
+    title,
+    description,
+    article,
+    categoryName,
+    categorySlug,
+    imageUrl: resolvedImg,
+    articles: ARTICLES,
+  });
   ldJsonScript.textContent = JSON.stringify(structuredData);
 };
 
@@ -320,6 +315,7 @@ export default function App() {
         canonicalPath: '/404',
         imageUrl: heroImage,
         type: 'website',
+        pageType: 'not_found',
         robots: 'noindex, follow',
       });
     } else if (route.type === 'article' && route.article) {
@@ -333,6 +329,8 @@ export default function App() {
         canonicalPath: `/${route.article.slug}`,
         imageUrl: route.article.coverImage,
         type: 'article',
+        pageType: 'article',
+        article: route.article,
       });
     } else if (route.type === 'category' && route.category) {
       setIsNotFound(false);
@@ -347,6 +345,9 @@ export default function App() {
         canonicalPath: catSlug ? `/${catSlug}` : '/',
         imageUrl: heroImage,
         type: 'website',
+        pageType: 'category',
+        categoryName: route.category,
+        categorySlug: catSlug,
       });
     } else if (route.type === 'calculators') {
       setIsNotFound(false);
@@ -358,6 +359,7 @@ export default function App() {
         canonicalPath: '/calculators',
         imageUrl: heroImage,
         type: 'website',
+        pageType: 'calculators',
       });
     } else if (route.type === 'saved') {
       setIsNotFound(false);
@@ -369,6 +371,7 @@ export default function App() {
         canonicalPath: '/saved',
         imageUrl: heroImage,
         type: 'website',
+        pageType: 'saved',
       });
     } else {
       setIsNotFound(false);
@@ -382,6 +385,7 @@ export default function App() {
         canonicalPath: '/',
         imageUrl: heroImage,
         type: 'website',
+        pageType: 'home',
       });
     }
   }, [resolveRoute]);
@@ -445,6 +449,8 @@ export default function App() {
       canonicalPath: `/${article.slug}`,
       imageUrl: article.coverImage,
       type: 'article',
+      pageType: 'article',
+      article,
     });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -465,6 +471,7 @@ export default function App() {
       canonicalPath: '/',
       imageUrl: heroImage,
       type: 'website',
+      pageType: 'home',
     });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -486,6 +493,9 @@ export default function App() {
       canonicalPath: slug ? `/${slug}` : '/',
       imageUrl: heroImage,
       type: 'website',
+      pageType: 'category',
+      categoryName: category,
+      categorySlug: slug,
     });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -503,6 +513,7 @@ export default function App() {
       canonicalPath: '/calculators',
       imageUrl: heroImage,
       type: 'website',
+      pageType: 'calculators',
     });
   };
 
@@ -535,6 +546,7 @@ export default function App() {
       canonicalPath: '/saved',
       imageUrl: heroImage,
       type: 'website',
+      pageType: 'saved',
     });
   };
 
